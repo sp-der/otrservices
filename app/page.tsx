@@ -1,24 +1,21 @@
 const capabilities = [
   {
     number: "01",
-    kicker: "BUILD",
     title: "Website Building",
-    copy: "Custom websites shaped around the actual business, not a recycled template with a logo dropped on top.",
-    tags: ["Custom UI", "Responsive Build", "Business Systems"],
+    copy: "Custom, responsive websites built around how your business actually moves, sells, books, and communicates.",
+    tags: ["Custom UI", "Responsive", "Business Systems"],
   },
   {
     number: "02",
-    kicker: "MANAGE",
     title: "Website Management",
-    copy: "Ongoing updates, fixes, content changes, maintenance, and support so your website keeps moving with your business.",
-    tags: ["Updates", "Maintenance", "Support"],
+    copy: "Updates, fixes, content changes, maintenance, and ongoing support without disappearing after launch.",
+    tags: ["Maintenance", "Updates", "Support"],
   },
   {
     number: "03",
-    kicker: "DESIGN",
     title: "Design + Branding",
-    copy: "Brand direction and visual assets made to feel connected, recognizable, and built for where your business is headed next.",
-    tags: ["Brand Identity", "Graphics", "Creative Direction"],
+    copy: "Visual direction, graphics, brand systems, and digital assets made to feel connected instead of pieced together.",
+    tags: ["Identity", "Graphics", "Direction"],
   },
 ];
 
@@ -27,201 +24,182 @@ const projects = [
     number: "001",
     name: "Pressed In Pink",
     category: "E-commerce / Systems / Design",
-    description:
-      "A custom storefront and business workflow built for a growing creative product catalog.",
-    monogram: "PIP",
+    description: "A full digital storefront and operating system built for a growing creative product business.",
   },
   {
     number: "002",
     name: "Pacific Stay Properties",
-    category: "Hospitality / Web Design / Booking",
-    description:
-      "A polished coastal property experience designed to support direct bookings and a premium guest journey.",
-    monogram: "PSP",
+    category: "Hospitality / Web / Booking",
+    description: "A polished direct-booking experience shaped around a premium short-term rental brand.",
   },
   {
     number: "003",
     name: "JMB 2 Creations",
-    category: "Creative Business / Commerce / Client Tools",
-    description:
-      "A client-focused digital experience built around custom orders, presentation, and everyday business operations.",
-    monogram: "JMB",
+    category: "Creative Commerce / Client Tools",
+    description: "A custom commerce experience built to make products, orders, and client communication feel easier.",
   },
   {
     number: "004",
     name: "Muerto De Hambre",
     category: "Food / Brand Experience / Catering",
-    description:
-      "A bold food brand translated into a digital experience with motion, personality, and a cleaner catering flow.",
-    monogram: "MDH",
+    description: "A high-energy food brand translated into a bold site with motion, personality, and catering flow.",
   },
 ];
 
 const process = [
-  ["01", "LISTEN", "We start with the business, the audience, and what actually needs to work."],
-  ["02", "DESIGN", "We build a visual direction that belongs to your brand instead of chasing whatever is trendy this week."],
-  ["03", "BUILD", "The concept becomes a fast, responsive experience with the details handled properly."],
-  ["04", "STAY READY", "When the business changes, the digital side can change with it. OTR is built for the long run."],
+  ["01", "DISCUSS", "We get clear on the business, the audience, the problems, and what success should actually look like."],
+  ["02", "DESIGN", "We shape the direction around your identity so the experience feels owned, not borrowed."],
+  ["03", "BUILD", "We turn the concept into a fast, responsive, working product with the details handled properly."],
+  ["04", "STAY READY", "Launch is not the finish line. OTR stays available as the business changes and grows."],
 ];
 
 export default function Home() {
   return (
-    <main>
-      <header className="site-header shell">
-        <a className="brand-lockup" href="#top" aria-label="OTR Services home">
-          <img src="/otr-mark.svg" alt="OTR" />
-          <span>
-            OTR SERVICES
-            <small>CREATIVE + DIGITAL</small>
-          </span>
-        </a>
+    <main className="otr-site" id="top">
+      <div className="otr-noise" aria-hidden="true" />
 
-        <nav className="desktop-nav" aria-label="Primary navigation">
-          <a href="#services">Services</a>
-          <a href="#work">Work</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-        </nav>
+      <header className="otr-header">
+        <div className="otr-shell otr-header-inner">
+          <a className="otr-brand" href="#top" aria-label="OTR Services home">
+            <img src="/otr-mark.svg" alt="OTR" />
+            <span>OTR SERVICES<small>CREATIVE / DIGITAL / BUSINESS</small></span>
+          </a>
 
-        <a className="header-cta" href="#contact">
-          Start a project <span>↗</span>
-        </a>
-
-        <details className="mobile-menu">
-          <summary aria-label="Open navigation">MENU</summary>
-          <nav>
+          <nav className="otr-nav" aria-label="Primary navigation">
             <a href="#services">Services</a>
             <a href="#work">Work</a>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
           </nav>
-        </details>
+
+          <a className="otr-header-cta" href="#contact">START A PROJECT <span>↗</span></a>
+
+          <details className="otr-mobile-menu">
+            <summary>MENU</summary>
+            <nav>
+              <a href="#services">Services</a>
+              <a href="#work">Work</a>
+              <a href="#about">About</a>
+              <a href="#contact">Contact</a>
+              <a href="mailto:otrservicesie@gmail.com">Start a project ↗</a>
+            </nav>
+          </details>
+        </div>
       </header>
 
-      <section className="hero shell" id="top">
-        <div className="hero-meta eyebrow-row">
-          <span>CALIFORNIA / DIGITAL STUDIO</span>
-          <span className="status-dot">AVAILABLE FOR NEW PROJECTS</span>
-        </div>
+      <section className="otr-hero">
+        <div className="otr-hero-grid" aria-hidden="true" />
+        <div className="otr-hero-glow" aria-hidden="true" />
+        <div className="otr-shell otr-hero-inner">
+          <div className="otr-hero-topline">
+            <span>CALIFORNIA / WORKING EVERYWHERE</span>
+            <span className="otr-live"><i /> AVAILABLE FOR NEW PROJECTS</span>
+          </div>
 
-        <div className="hero-grid">
-          <div className="hero-copy">
-            <p className="section-kicker">OTR SERVICES / 2026</p>
-            <h1>
-              BUILT TO REPRESENT
-              <br />
-              YOUR BUSINESS <span>RIGHT.</span>
-            </h1>
-            <p className="hero-lead">
-              Custom websites, management, branding, and creative support built to make your business look as serious as the work behind it.
-            </p>
-            <div className="hero-actions">
-              <a className="button button-light" href="#contact">
-                LET&apos;S BUILD IT <span>↗</span>
-              </a>
-              <a className="text-link" href="#work">
-                VIEW SELECTED WORK <span>↓</span>
-              </a>
+          <div className="otr-hero-layout">
+            <div className="otr-hero-copy">
+              <p className="otr-kicker">WEBSITES / MANAGEMENT / BRANDING</p>
+              <h1>
+                BUILT TO<br />
+                REPRESENT<br />
+                <span>YOUR BUSINESS RIGHT.</span>
+              </h1>
+              <p className="otr-hero-lead">
+                Custom digital work for businesses that want to look established, move cleaner, and stop blending in with everybody else.
+              </p>
+              <div className="otr-hero-actions">
+                <a className="otr-button otr-button-solid" href="#contact">LET&apos;S BUILD IT <span>↗</span></a>
+                <a className="otr-button otr-button-ghost" href="#work">VIEW THE WORK <span>↓</span></a>
+              </div>
+            </div>
+
+            <div className="otr-hero-panel" aria-hidden="true">
+              <div className="otr-panel-corner otr-panel-corner-a" />
+              <div className="otr-panel-corner otr-panel-corner-b" />
+              <div className="otr-scan-line" />
+              <div className="otr-panel-code">OTR / 001 / SYSTEM ONLINE</div>
+              <div className="otr-panel-word">ORIGINAL</div>
+              <div className="otr-panel-word otr-panel-word-2">TECHNICAL</div>
+              <div className="otr-panel-word otr-panel-word-3">RELENTLESS</div>
+              <div className="otr-panel-mark">OTR</div>
+              <div className="otr-panel-bottom">
+                <span>IDEAS → SYSTEMS</span>
+                <span>BRANDS → EXPERIENCES</span>
+              </div>
             </div>
           </div>
 
-          <div className="hero-art" aria-hidden="true">
-            <div className="hero-orbit orbit-one" />
-            <div className="hero-orbit orbit-two" />
-            <div className="logo-plate">
-              <span className="plate-label plate-label-top">ORIGINAL / TECHNICAL / RELENTLESS</span>
-              <img src="/otr-mark.svg" alt="" />
-              <span className="plate-label plate-label-bottom">WEB • DESIGN • MANAGEMENT</span>
-            </div>
-            <div className="serial-tag">OTR / 001</div>
+          <div className="otr-hero-stats">
+            <div><strong>04</strong><span>FEATURED BUILDS</span></div>
+            <div><strong>01</strong><span>POINT OF CONTACT</span></div>
+            <div><strong>100%</strong><span>CUSTOM DIRECTION</span></div>
+            <div className="otr-stat-wide"><strong>OTR</strong><span>ORIGINAL / TECHNICAL / RELENTLESS</span></div>
           </div>
         </div>
+      </section>
 
-        <div className="hero-footer-line">
-          <span>NO COPY + PASTE FORMULAS.</span>
-          <span>YOUR BUSINESS DESERVES ITS OWN LANE.</span>
+      <section className="otr-marquee" aria-label="OTR capabilities">
+        <div className="otr-marquee-track">
+          <span>WEBSITE BUILDING ✦ WEBSITE MANAGEMENT ✦ DESIGN + BRANDING ✦ DIGITAL SUPPORT ✦ BUILT TO REPRESENT YOUR BUSINESS RIGHT ✦ </span>
+          <span>WEBSITE BUILDING ✦ WEBSITE MANAGEMENT ✦ DESIGN + BRANDING ✦ DIGITAL SUPPORT ✦ BUILT TO REPRESENT YOUR BUSINESS RIGHT ✦ </span>
         </div>
       </section>
 
-      <section className="ticker" aria-label="OTR capabilities">
-        <div className="ticker-track">
-          <span>WEBSITE BUILDING ✦ WEBSITE MANAGEMENT ✦ DESIGN + BRANDING ✦ DIGITAL SUPPORT ✦ REPRESENT YOUR BUSINESS RIGHT ✦ </span>
-          <span>WEBSITE BUILDING ✦ WEBSITE MANAGEMENT ✦ DESIGN + BRANDING ✦ DIGITAL SUPPORT ✦ REPRESENT YOUR BUSINESS RIGHT ✦ </span>
-        </div>
-      </section>
-
-      <section className="section shell" id="services">
-        <div className="section-heading-grid">
+      <section className="otr-section otr-shell" id="services">
+        <div className="otr-section-heading">
           <div>
-            <p className="section-kicker">CAPABILITIES / 01</p>
-            <h2>WHAT WE DO<br />RIGHT NOW.</h2>
+            <p className="otr-kicker">CAPABILITIES / 01</p>
+            <h2>MORE THAN<br />A WEBSITE.</h2>
           </div>
-          <div className="section-intro">
-            <p>
-              OTR is built to be more than the person you call once for a website. We create the digital foundation, keep it moving, and help the brand around it stay sharp.
-            </p>
-            <span>More capabilities are always in motion.</span>
+          <div className="otr-heading-copy">
+            <p>Build the digital foundation. Keep it sharp. Give the business room to grow without collecting five disconnected vendors along the way.</p>
+            <span>More capabilities are being built behind the scenes.</span>
           </div>
         </div>
 
-        <div className="capability-list">
+        <div className="otr-service-grid">
           {capabilities.map((item) => (
-            <article className="capability-card" key={item.number}>
-              <div className="capability-index">
-                <span>{item.number}</span>
-                <small>{item.kicker}</small>
-              </div>
-              <div className="capability-content">
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-                <div className="tag-row">
-                  {item.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </div>
-              </div>
-              <span className="capability-arrow" aria-hidden="true">↗</span>
+            <article className="otr-service-card" key={item.number}>
+              <div className="otr-service-top"><span>{item.number}</span><span>↗</span></div>
+              <h3>{item.title}</h3>
+              <p>{item.copy}</p>
+              <div className="otr-tags">{item.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="statement-section">
-        <div className="shell statement-grid">
-          <div className="statement-mark">
-            <img src="/otr-mark.svg" alt="OTR Services" />
-          </div>
-          <div className="statement-copy">
-            <p className="section-kicker">THE BIGGER PICTURE / 02</p>
-            <h2>YOUR BUSINESS DOESN&apos;T STOP AT A WEBSITE. <span>NEITHER DO WE.</span></h2>
-            <p>
-              OTR is growing into a long-term creative and digital resource for businesses. The goal is simple: fewer random vendors, fewer disconnected pieces, and more of your business moving in the same direction.
-            </p>
-            <a className="text-link light-link" href="#about">HOW OTR WORKS <span>↗</span></a>
+      <section className="otr-band">
+        <div className="otr-shell otr-band-inner">
+          <p className="otr-kicker">THE BIGGER PICTURE / 02</p>
+          <h2>YOUR BUSINESS DOESN&apos;T STOP<br />AT A WEBSITE. <span>NEITHER DO WE.</span></h2>
+          <div className="otr-band-bottom">
+            <p>OTR is being built into a long-term creative and digital resource for businesses. Fewer random pieces. Better execution. One direction.</p>
+            <a href="#about">SEE THE APPROACH <span>↗</span></a>
           </div>
         </div>
       </section>
 
-      <section className="section shell" id="work">
-        <div className="work-heading">
+      <section className="otr-section otr-shell" id="work">
+        <div className="otr-work-heading">
           <div>
-            <p className="section-kicker">SELECTED WORK / 03</p>
-            <h2>BUILT IN<br />THE REAL WORLD.</h2>
+            <p className="otr-kicker">SELECTED WORK / 03</p>
+            <h2>THE WORK<br />SPEAKS LIVE.</h2>
           </div>
-          <p>
-            Different industries. Different personalities. The point is not making every client look like OTR. The point is making every build feel like them.
-          </p>
+          <p>These are not screenshots. Scroll the actual sites below and see how each build carries its own identity.</p>
         </div>
 
-        <div className="project-grid">
+        <div className="project-grid otr-project-grid">
           {projects.map((project, index) => (
-            <article className={`project-card project-card-${index + 1}`} key={project.number}>
-              <div className="project-visual">
-                <div className="project-grid-lines" />
-                <span className="project-monogram">{project.monogram}</span>
-                <span className="project-stamp">PROJECT / {project.number}</span>
+            <article className={`project-card project-card-${index + 1} otr-project-card`} key={project.number}>
+              <div className="otr-project-meta-top">
+                <span>PROJECT / {project.number}</span>
+                <span>LIVE PREVIEW</span>
               </div>
-              <div className="project-info">
+              <div className="project-visual otr-project-visual">
+                <div className="project-grid-lines" />
+              </div>
+              <div className="project-info otr-project-info">
                 <div>
                   <span className="project-number">{project.number}</span>
                   <h3>{project.name}</h3>
@@ -234,65 +212,56 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section process-section shell" id="about">
-        <div className="process-heading">
-          <p className="section-kicker">THE OTR APPROACH / 04</p>
-          <h2>DESIGN IT.<br />BUILD IT.<br /><span>KEEP IT RUNNING.</span></h2>
-        </div>
+      <section className="otr-signature-strip" aria-label="OTR motto">
+        <span>ORIGINAL</span><i /> <span>TECHNICAL</span><i /> <span>RELENTLESS</span>
+      </section>
 
-        <div className="process-list">
+      <section className="otr-section otr-process otr-shell" id="about">
+        <div className="otr-process-heading">
+          <p className="otr-kicker">THE OTR APPROACH / 04</p>
+          <h2>SIMPLE.<br />CLEAR.<br /><span>EFFECTIVE.</span></h2>
+        </div>
+        <div className="otr-process-list">
           {process.map(([number, title, copy]) => (
-            <article className="process-row" key={number}>
+            <article className="otr-process-row" key={number}>
               <span>{number}</span>
               <h3>{title}</h3>
               <p>{copy}</p>
+              <b>↗</b>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="about-strip">
-        <div className="shell about-grid">
-          <div className="about-badge">
-            <span>OTR</span>
-            <small>CREATIVE<br />DIGITAL<br />BUSINESS</small>
-          </div>
+      <section className="otr-about-panel">
+        <div className="otr-shell otr-about-grid">
           <div>
-            <p className="section-kicker">ABOUT OTR / 05</p>
-            <h2>BUSINESSES DESERVE BETTER THAN GENERIC.</h2>
-            <p>
-              OTR Services exists to build digital experiences around the identity of the business itself. No one-size-fits-all formula. No disappearing after launch. Just thoughtful work, strong execution, and room to keep evolving.
-            </p>
+            <p className="otr-kicker">ABOUT OTR / 05</p>
+            <h2>BUSINESSES DESERVE<br />BETTER THAN GENERIC.</h2>
+          </div>
+          <div className="otr-about-copy">
+            <p>OTR Services builds digital experiences around the identity of the business itself. No one-size-fits-all formula. No disappearing after launch. Just thoughtful work, strong execution, and room to keep evolving.</p>
+            <div className="otr-about-chips"><span>WEB</span><span>MANAGEMENT</span><span>DESIGN</span><span>MORE COMING</span></div>
           </div>
         </div>
       </section>
 
-      <section className="contact-section shell" id="contact">
-        <div className="contact-topline">
-          <span>START A PROJECT / 06</span>
-          <span>OTR SERVICES © 2026</span>
-        </div>
-
-        <div className="contact-main">
-          <h2>GOT SOMETHING<br />IN MIND?</h2>
-          <a href="mailto:otrservicesie@gmail.com?subject=OTR%20Services%20Project%20Inquiry">
-            LET&apos;S BUILD IT. <span>↗</span>
-          </a>
-        </div>
-
-        <div className="contact-bottom">
+      <section className="otr-contact otr-shell" id="contact">
+        <div className="otr-contact-topline"><span>START A PROJECT / 06</span><span>OTR SERVICES © 2026</span></div>
+        <div className="otr-contact-grid">
           <div>
-            <small>PROJECT INQUIRIES</small>
-            <a href="mailto:otrservicesie@gmail.com">otrservicesie@gmail.com</a>
+            <p className="otr-kicker">READY WHEN YOU ARE</p>
+            <h2>LET&apos;S BUILD<br />SOMETHING <span>REAL.</span></h2>
           </div>
-          <div>
-            <small>BASED IN</small>
-            <span>CALIFORNIA / WORKING EVERYWHERE</span>
-          </div>
-          <div className="footer-mark">
-            <img src="/otr-mark.svg" alt="OTR" />
+          <div className="otr-contact-action">
+            <p>Website, management, branding, or something that does not fit neatly into a box. Bring the idea.</p>
+            <a href="mailto:otrservicesie@gmail.com?subject=OTR%20Services%20Project%20Inquiry">otrservicesie@gmail.com <span>↗</span></a>
           </div>
         </div>
+        <footer className="otr-footer">
+          <div className="otr-footer-brand"><img src="/otr-mark.svg" alt="OTR" /><span>ORIGINAL / TECHNICAL / RELENTLESS</span></div>
+          <div><span>CALIFORNIA</span><span>WORKING EVERYWHERE</span></div>
+        </footer>
       </section>
     </main>
   );
