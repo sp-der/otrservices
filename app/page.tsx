@@ -1,3 +1,5 @@
+import ProjectForm from "./ProjectForm";
+
 const services = [
   ["01", "Website Building", "Custom sites designed around how your business actually sells, books, communicates, and grows."],
   ["02", "Website Management", "Ongoing updates, fixes, content changes, maintenance, and support after launch."],
@@ -63,44 +65,30 @@ export default function Home() {
         </details>
       </header>
 
-      <section className="fm-hero">
-        <div className="fm-shell fm-hero-inner">
-          <div className="fm-hero-copy">
-            <p className="fm-kicker">ON THE RUN / CREATIVE + DIGITAL</p>
-            <h1>Simple Ideas.<br />Strong Builds.<br /><span>Real Results.</span></h1>
-            <p className="fm-hero-lead">Custom websites, management, branding, and creative support built to represent your business right.</p>
+      <section className="fm-hero fm-hero-refresh">
+        <div className="fm-shell fm-hero-inner fm-hero-inner-refresh">
+          <div className="fm-availability">
+            <i aria-hidden="true" />
+            <span>ACCEPTING NEW CLIENTS</span>
           </div>
 
-          <div className="fm-hero-meta">
+          <div className="fm-hero-mark" aria-hidden="true">
+            <img src="/OTR.png" alt="" />
+          </div>
+
+          <div className="fm-hero-copy fm-hero-copy-refresh">
+            <p className="fm-kicker">ON THE RUN / CREATIVE + DIGITAL</p>
+            <h1>BUILT TO REPRESENT<br />YOUR BUSINESS <span>RIGHT.</span></h1>
+            <p className="fm-hero-lead">Custom websites, management, branding, and creative support built to make your business look as serious as the work behind it.</p>
+            <div className="fm-hero-actions-refresh">
+              <a className="fm-hero-primary" href="#contact">WORK WITH US <span>↗</span></a>
+              <a className="fm-hero-secondary" href="#work">VIEW SELECTED WORK <span>↓</span></a>
+            </div>
+          </div>
+
+          <div className="fm-hero-footnote">
             <span>CALIFORNIA</span>
             <span>WORKING EVERYWHERE</span>
-            <span>AVAILABLE FOR NEW PROJECTS</span>
-          </div>
-
-          <div className="fm-collage" aria-label="OTR creative direction">
-            <div className="fm-collage-card fm-collage-type">
-              <span>OTR</span>
-              <small>Ideas become systems.</small>
-            </div>
-            <div className="fm-collage-card fm-collage-script">
-              <img src="/ScriptW.png" alt="On The Run" />
-              <small>More than websites.</small>
-            </div>
-            <div className="fm-collage-card fm-collage-grid">
-              <div className="fm-grid-orb" />
-              <span>ON THE RUN</span>
-              <small>CREATIVE / DIGITAL / BUSINESS</small>
-            </div>
-            <a className="fm-collage-card fm-collage-cta" href="#contact">
-              <span>LET&apos;S<br />COLLABORATE.</span>
-              <b>↗</b>
-            </a>
-          </div>
-
-          <div className="fm-capability-row">
-            {services.map(([number, title]) => (
-              <a href="#services" key={number}><span>{number}</span><strong>{title}</strong><i>↗</i></a>
-            ))}
           </div>
         </div>
       </section>
@@ -198,16 +186,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="fm-contact" id="contact">
-        <div className="fm-shell fm-contact-inner">
-          <div>
+      <section className="fm-contact fm-contact-form-section" id="contact">
+        <div className="fm-shell fm-contact-inner fm-contact-form-inner">
+          <div className="fm-contact-heading">
             <p className="fm-kicker">START A PROJECT / 04</p>
-            <h2>Got something<br />worth building?</h2>
+            <h2>TELL US WHAT<br />YOU&apos;RE BUILDING.</h2>
+            <p>Give us the basics and what you want the website to accomplish. We&apos;ll take it from there.</p>
           </div>
-          <div className="fm-contact-copy">
-            <p>Website, management, branding, or something that does not fit neatly into a box. Bring the idea.</p>
-            <a href="mailto:otrservicesie@gmail.com?subject=OTR%20Services%20Project%20Inquiry">otrservicesie@gmail.com <span>↗</span></a>
-          </div>
+          <ProjectForm />
         </div>
       </section>
 
