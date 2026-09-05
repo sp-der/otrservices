@@ -108,12 +108,12 @@ export default function Home() {
           <div className="hero-copy">
             <p className="section-kicker">OTR SERVICES / 2026</p>
             <h1>
-              BUILT DIFFERENT.
+              BUILT TO REPRESENT
               <br />
-              BUILT FOR <span>BUSINESS.</span>
+              YOUR BUSINESS <span>RIGHT.</span>
             </h1>
             <p className="hero-lead">
-              Websites, branding, design, and digital support built to help businesses look better, work better, and grow without looking like everybody else.
+              Custom websites, management, branding, and creative support built to make your business look as serious as the work behind it.
             </p>
             <div className="hero-actions">
               <a className="button button-light" href="#contact">
@@ -145,8 +145,8 @@ export default function Home() {
 
       <section className="ticker" aria-label="OTR capabilities">
         <div className="ticker-track">
-          <span>WEBSITE BUILDING ✦ WEBSITE MANAGEMENT ✦ DESIGN + BRANDING ✦ DIGITAL SUPPORT ✦ BUILT FOR BUSINESS ✦ </span>
-          <span>WEBSITE BUILDING ✦ WEBSITE MANAGEMENT ✦ DESIGN + BRANDING ✦ DIGITAL SUPPORT ✦ BUILT FOR BUSINESS ✦ </span>
+          <span>WEBSITE BUILDING ✦ WEBSITE MANAGEMENT ✦ DESIGN + BRANDING ✦ DIGITAL SUPPORT ✦ REPRESENT YOUR BUSINESS RIGHT ✦ </span>
+          <span>WEBSITE BUILDING ✦ WEBSITE MANAGEMENT ✦ DESIGN + BRANDING ✦ DIGITAL SUPPORT ✦ REPRESENT YOUR BUSINESS RIGHT ✦ </span>
         </div>
       </section>
 
