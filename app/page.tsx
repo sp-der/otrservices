@@ -129,7 +129,6 @@ export default function Home() {
                 <span>{number}</span>
                 <h3>{title}</h3>
                 <p>{copy}</p>
-                <a href="#contact">Ask about this <b>↗</b></a>
               </article>
             ))}
           </div>
