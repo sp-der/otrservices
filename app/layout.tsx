@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./premium.css";
 import "./motion.css";
 import "./landing-refresh.css";
@@ -40,6 +41,7 @@ export default function RootLayout({
         <PortfolioEmbeds />
         <MotionLayer />
         <DesktopMotionLayer />
+        <Analytics />
       </body>
     </html>
   );
