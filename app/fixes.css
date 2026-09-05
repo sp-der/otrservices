@@ -257,6 +257,7 @@ body {
 
 .project-card-1 .project-visual,
 .project-card-2 .project-visual,
+.project-card-3 .project-visual,
 .project-card-4 .project-visual {
   aspect-ratio: auto;
   height: clamp(420px, 46vw, 650px);
@@ -274,6 +275,7 @@ body {
 
   .project-card-1 .project-visual,
   .project-card-2 .project-visual,
+  .project-card-3 .project-visual,
   .project-card-4 .project-visual {
     height: 500px;
   }
