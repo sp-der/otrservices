@@ -3,8 +3,10 @@ import "./premium.css";
 import "./motion.css";
 import "./landing-refresh.css";
 import "./scroll-polish.css";
+import "./final-polish.css";
 import PortfolioEmbeds from "./PortfolioEmbeds";
 import MotionLayer from "./MotionLayer";
+import DesktopMotionLayer from "./DesktopMotionLayer";
 import IntroLoader from "./IntroLoader";
 
 export const metadata: Metadata = {
@@ -37,6 +39,7 @@ export default function RootLayout({
         {children}
         <PortfolioEmbeds />
         <MotionLayer />
+        <DesktopMotionLayer />
       </body>
     </html>
   );
