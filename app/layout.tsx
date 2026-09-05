@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import "./fixes.css";
-import "./ontherun.css";
-import "./branding.css";
+import "./premium.css";
 import PortfolioEmbeds from "./PortfolioEmbeds";
 
 export const metadata: Metadata = {
   title: "OTR Services | On The Run",
   description:
-    "OTR Services builds custom websites, manages digital experiences, and develops brands for businesses that want to represent themselves right.",
+    "OTR Services builds custom websites, manages digital experiences, and creates brand systems for businesses that want to stand out and keep moving.",
   metadataBase: new URL("https://otrservices.com"),
   openGraph: {
     title: "OTR Services | On The Run",
     description:
-      "Websites, management, design, and brand support built to represent your business right.",
+      "Custom websites, management, design, and creative support built to represent your business right.",
     type: "website",
   },
 };
