@@ -1,14 +1,21 @@
 import type { Metadata } from "next";
 import "./premium.css";
 import "./motion.css";
+import "./landing-refresh.css";
 import PortfolioEmbeds from "./PortfolioEmbeds";
 import MotionLayer from "./MotionLayer";
+import IntroLoader from "./IntroLoader";
 
 export const metadata: Metadata = {
   title: "OTR Services | On The Run",
   description:
     "OTR Services builds custom websites, manages digital experiences, and creates brand systems for businesses that want to stand out and keep moving.",
   metadataBase: new URL("https://otrservices.com"),
+  icons: {
+    icon: "/OTR.png",
+    shortcut: "/OTR.png",
+    apple: "/OTR.png",
+  },
   openGraph: {
     title: "OTR Services | On The Run",
     description:
@@ -25,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <IntroLoader />
         {children}
         <PortfolioEmbeds />
         <MotionLayer />
