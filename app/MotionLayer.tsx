@@ -4,9 +4,7 @@ import { useEffect } from "react";
 
 const revealSelectors = [
   ".fm-hero-copy > *",
-  ".fm-hero-meta > *",
-  ".fm-collage-card",
-  ".fm-capability-row > *",
+  ".fm-availability",
   ".fm-manifesto-title > *",
   ".fm-manifesto-copy > *",
   ".fm-proof-row > *",
@@ -17,7 +15,22 @@ const revealSelectors = [
   ".fm-process-head > *",
   ".fm-process-grid article",
   ".fm-contact-inner > *",
+  ".fm-project-form label",
+  ".fm-form-footer",
   ".fm-footer-inner > *",
+];
+
+const scrollDepthSelectors = [
+  ".fm-manifesto-grid",
+  ".fm-proof-row",
+  ".fm-services .fm-section-head",
+  ".fm-service-list",
+  ".fm-work .fm-section-head",
+  ".fm-project-grid",
+  ".fm-brand-break-inner",
+  ".fm-process-head",
+  ".fm-process-grid",
+  ".fm-contact-inner",
 ];
 
 export default function MotionLayer() {
@@ -25,6 +38,7 @@ export default function MotionLayer() {
     const root = document.documentElement;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const finePointer = window.matchMedia("(pointer: fine)").matches;
+    const mobile = window.matchMedia("(max-width: 760px)").matches;
 
     root.classList.add("fm-motion-ready");
 
@@ -42,7 +56,7 @@ export default function MotionLayer() {
           revealElements.includes(child as HTMLElement)
         );
         const index = Math.max(0, siblings.indexOf(element));
-        element.style.setProperty("--reveal-delay", `${Math.min(index * 75, 300)}ms`);
+        element.style.setProperty("--reveal-delay", `${Math.min(index * 70, 280)}ms`);
       }
     });
 
@@ -58,12 +72,21 @@ export default function MotionLayer() {
             observer.unobserve(entry.target);
           });
         },
-        { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+        { threshold: 0.1, rootMargin: "0px 0px -7% 0px" }
       );
 
       revealElements.forEach((element) => observer.observe(element));
       cleanup.push(() => observer.disconnect());
     }
+
+    const depthElements = Array.from(
+      document.querySelectorAll<HTMLElement>(scrollDepthSelectors.join(","))
+    );
+    depthElements.forEach((element) => element.classList.add("fm-scroll-depth"));
+
+    const parallaxElements = Array.from(
+      document.querySelectorAll<HTMLElement>(".fm-brand-break img, .fm-hero-mark")
+    );
 
     const header = document.querySelector<HTMLElement>(".fm-header");
     const progress = document.createElement("div");
@@ -75,17 +98,39 @@ export default function MotionLayer() {
     const updateScroll = () => {
       scrollFrame = 0;
       const y = window.scrollY;
-      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const viewport = window.innerHeight || 1;
+      const max = Math.max(1, document.documentElement.scrollHeight - viewport);
       const ratio = Math.min(1, Math.max(0, y / max));
       progress.style.transform = `scaleX(${ratio})`;
       header?.classList.toggle("fm-header-scrolled", y > 24);
 
       if (!reduceMotion) {
-        document.querySelectorAll<HTMLElement>(".fm-collage-script img, .fm-brand-break img").forEach((element) => {
+        const travel = mobile ? 24 : 42;
+
+        depthElements.forEach((element) => {
           const rect = element.getBoundingClientRect();
+          if (rect.bottom < -viewport * 0.35 || rect.top > viewport * 1.35) return;
+
           const center = rect.top + rect.height / 2;
-          const delta = (center - window.innerHeight / 2) / window.innerHeight;
-          element.style.setProperty("--fm-parallax", `${Math.max(-12, Math.min(12, delta * -18))}px`);
+          const delta = (center - viewport / 2) / viewport;
+          const clamped = Math.max(-1.2, Math.min(1.2, delta));
+          const translateY = clamped * travel;
+          const edge = Math.max(0, Math.abs(clamped) - 0.12);
+          const opacity = Math.max(0.66, 1 - edge * 0.28);
+
+          element.style.setProperty("--fm-depth-y", `${translateY.toFixed(2)}px`);
+          element.style.setProperty("--fm-depth-opacity", opacity.toFixed(3));
+        });
+
+        parallaxElements.forEach((element) => {
+          const rect = element.getBoundingClientRect();
+          if (rect.bottom < -viewport || rect.top > viewport * 2) return;
+          const center = rect.top + rect.height / 2;
+          const delta = (center - viewport / 2) / viewport;
+          element.style.setProperty(
+            "--fm-parallax",
+            `${Math.max(-16, Math.min(16, delta * -20)).toFixed(2)}px`
+          );
         });
       }
     };
@@ -102,6 +147,11 @@ export default function MotionLayer() {
       window.removeEventListener("resize", onScroll);
       if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
       progress.remove();
+      depthElements.forEach((element) => {
+        element.classList.remove("fm-scroll-depth");
+        element.style.removeProperty("--fm-depth-y");
+        element.style.removeProperty("--fm-depth-opacity");
+      });
     });
 
     const sectionObserver = new IntersectionObserver(
@@ -157,15 +207,15 @@ export default function MotionLayer() {
 
       const magnetic = Array.from(
         document.querySelectorAll<HTMLElement>(
-          ".fm-header-cta, .fm-collage-cta, .fm-contact-copy a, .fm-service-list article > a"
+          ".fm-header-cta, .fm-hero-primary, .fm-contact-copy a, .fm-service-list article > a, .fm-form-footer button"
         )
       );
 
       const magneticCleanups = magnetic.map((element) => {
         const move = (event: PointerEvent) => {
           const rect = element.getBoundingClientRect();
-          const x = (event.clientX - (rect.left + rect.width / 2)) * 0.09;
-          const y = (event.clientY - (rect.top + rect.height / 2)) * 0.09;
+          const x = (event.clientX - (rect.left + rect.width / 2)) * 0.08;
+          const y = (event.clientY - (rect.top + rect.height / 2)) * 0.08;
           element.style.setProperty("--fm-magnetic-x", `${x}px`);
           element.style.setProperty("--fm-magnetic-y", `${y}px`);
           element.classList.add("fm-magnetic-active");
