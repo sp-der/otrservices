@@ -4,33 +4,47 @@ import { FormEvent, useState } from "react";
 
 export default function ProjectForm() {
   const [status, setStatus] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isSubmitting) return;
+
     const form = event.currentTarget;
     const data = new FormData(form);
 
-    const name = String(data.get("name") || "");
-    const phone = String(data.get("phone") || "");
-    const email = String(data.get("email") || "");
-    const businessName = String(data.get("businessName") || "");
-    const details = String(data.get("details") || "");
+    const payload = {
+      name: String(data.get("name") || ""),
+      phone: String(data.get("phone") || ""),
+      email: String(data.get("email") || ""),
+      businessName: String(data.get("businessName") || ""),
+      details: String(data.get("details") || ""),
+      website: String(data.get("website") || ""),
+    };
 
-    const subject = encodeURIComponent(`OTR Website Request - ${businessName || name}`);
-    const body = encodeURIComponent(
-      [
-        `Name: ${name}`,
-        `Phone Number: ${phone}`,
-        `Email: ${email}`,
-        `Business Name: ${businessName}`,
-        "",
-        "Business / Website Request:",
-        details,
-      ].join("\n")
-    );
+    setIsSubmitting(true);
+    setStatus("Sending your request...");
 
-    setStatus("Opening your email app...");
-    window.location.href = `mailto:otrservicesie@gmail.com?subject=${subject}&body=${body}`;
+    try {
+      const response = await fetch("/api/project-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.error || "We couldn't send your request right now.");
+      }
+
+      form.reset();
+      setStatus("Request sent. We'll be in touch soon.");
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "We couldn't send your request right now. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -61,9 +75,15 @@ export default function ProjectForm() {
             required
           />
         </label>
+        <label style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }} aria-hidden="true">
+          <span>Website</span>
+          <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+        </label>
       </div>
       <div className="fm-form-footer">
-        <button type="submit">SEND PROJECT REQUEST <span>↗</span></button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "SENDING..." : "SEND PROJECT REQUEST"} <span>↗</span>
+        </button>
         <small aria-live="polite">{status}</small>
       </div>
     </form>
