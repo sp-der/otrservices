@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./fixes.css";
+import PortfolioEmbeds from "./PortfolioEmbeds";
 
 export const metadata: Metadata = {
   title: "OTR Services | Built to Represent Your Business Right.",
@@ -22,7 +23,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <PortfolioEmbeds />
+      </body>
     </html>
   );
 }
