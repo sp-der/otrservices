@@ -46,14 +46,14 @@ export default function Home() {
     <main className="fm-site" id="top">
       <header className="fm-header">
         <a className="fm-brand" href="#top" aria-label="OTR Services home">
-          <img src="/OTR.png" alt="OTR" />
+          <img src="/ScriptW.png" alt="On The Run" />
         </a>
         <nav className="fm-nav" aria-label="Primary navigation">
           <a href="#services">Services</a>
           <a href="#work">Work</a>
           <a href="#about">About</a>
         </nav>
-        <a className="fm-header-cta" href="#contact">Work with us <span>↗</span></a>
+        <a className="fm-header-cta" href="#contact">Work with us <span className="otr-arrow" aria-hidden="true" /></a>
         <details className="fm-mobile-menu">
           <summary>Menu</summary>
           <nav>
@@ -81,7 +81,7 @@ export default function Home() {
             <h1>BUILT TO REPRESENT<br />YOUR BUSINESS <span>RIGHT.</span></h1>
             <p className="fm-hero-lead">Custom websites, management, branding, and creative support built to make your business look as serious as the work behind it.</p>
             <div className="fm-hero-actions-refresh">
-              <a className="fm-hero-primary" href="#contact">WORK WITH US <span>↗</span></a>
+              <a className="fm-hero-primary" href="#contact">WORK WITH US <span className="otr-arrow" aria-hidden="true" /></a>
               <a className="fm-hero-secondary" href="#work">VIEW SELECTED WORK <span>↓</span></a>
             </div>
           </div>
