@@ -1,0 +1,233 @@
+/* Scroll polish and panel blending. Keeps the existing palette, removes hard cuts. */
+
+.fm-manifesto {
+  padding-top: 188px;
+  padding-bottom: 178px;
+  background:
+    linear-gradient(
+      180deg,
+      #080808 0,
+      #4a4a47 46px,
+      #b9b7b0 94px,
+      #f2f0e9 142px,
+      #f2f0e9 calc(100% - 142px),
+      #c9c7c1 calc(100% - 96px),
+      #5a5a57 calc(100% - 44px),
+      #0b0b0b 100%
+    );
+}
+
+.fm-services {
+  padding-top: 126px;
+  padding-bottom: 168px;
+  background:
+    linear-gradient(180deg, #0b0b0b 0%, #0b0b0b 86%, #090909 94%, #080808 100%);
+}
+
+.fm-work {
+  padding-top: 126px;
+  padding-bottom: 168px;
+  background:
+    linear-gradient(180deg, #080808 0%, #080808 88%, #0b0b0b 95%, #0d0d0d 100%);
+}
+
+.fm-brand-break {
+  border-top: 0;
+  border-bottom: 0;
+  background: #0d0d0d;
+}
+
+.fm-process {
+  padding-top: 192px;
+  padding-bottom: 188px;
+  background:
+    linear-gradient(
+      180deg,
+      #0d0d0d 0,
+      #575754 48px,
+      #c7c5bf 98px,
+      #f2f0e9 146px,
+      #f2f0e9 calc(100% - 150px),
+      #cecdc7 calc(100% - 100px),
+      #696966 calc(100% - 48px),
+      #242424 100%
+    );
+}
+
+.fm-contact.fm-contact-form-section {
+  padding-top: 126px;
+  padding-bottom: 154px;
+  color: #f4f2ec;
+  background:
+    linear-gradient(180deg, #242424 0%, #202020 78%, #151515 92%, #080808 100%) !important;
+}
+
+.fm-contact-form-section::after {
+  opacity: .3 !important;
+  background:
+    radial-gradient(circle at 76% 28%, rgba(255,255,255,.055), transparent 30rem),
+    linear-gradient(120deg, transparent 0 44%, rgba(255,255,255,.025) 51%, transparent 58%) !important;
+  background-size: 100% 100% !important;
+  animation: none !important;
+}
+
+.fm-contact-heading h2 {
+  color: #f4f2ec;
+}
+
+.fm-contact-heading p:not(.fm-kicker) {
+  color: #c0bfba;
+}
+
+.fm-project-form {
+  padding: 34px;
+  border-color: rgba(255,255,255,.16);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012));
+  box-shadow: 0 30px 80px rgba(0,0,0,.16);
+}
+
+.fm-form-grid {
+  gap: 26px 22px;
+}
+
+.fm-project-form label {
+  gap: 11px;
+}
+
+.fm-project-form label > span {
+  color: #aaa9a4;
+  font-size: 9.5px;
+  line-height: 1.35;
+  letter-spacing: .14em;
+}
+
+.fm-project-form input,
+.fm-project-form textarea {
+  padding: 15px 0;
+  border-bottom-color: rgba(255,255,255,.24);
+  color: #f7f5ef;
+  font-size: 16.5px;
+  line-height: 1.45;
+}
+
+.fm-project-form textarea {
+  min-height: 190px;
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+
+.fm-project-form input::placeholder,
+.fm-project-form textarea::placeholder {
+  color: #8c8b86;
+  opacity: 1;
+}
+
+.fm-project-form input:focus,
+.fm-project-form textarea:focus {
+  border-color: rgba(255,255,255,.9);
+}
+
+.fm-form-footer button {
+  min-width: 232px;
+  padding: 16px 18px;
+  font-size: 9.5px;
+}
+
+.fm-form-footer small {
+  color: #9c9b96;
+  font-size: 9px;
+}
+
+/* Continuous scroll depth. JavaScript only updates these custom properties. */
+.fm-scroll-depth {
+  --fm-depth-y: 0px;
+  --fm-depth-opacity: 1;
+  translate: 0 var(--fm-depth-y);
+  opacity: var(--fm-depth-opacity);
+  will-change: translate, opacity;
+}
+
+.fm-motion-ready .fm-scroll-depth {
+  transition: opacity .12s linear;
+}
+
+.fm-hero-refresh {
+  border-bottom: 0;
+}
+
+@media (max-width: 1100px) {
+  .fm-manifesto {
+    padding-top: 166px;
+    padding-bottom: 158px;
+  }
+
+  .fm-process {
+    padding-top: 170px;
+    padding-bottom: 166px;
+  }
+}
+
+@media (max-width: 760px) {
+  .fm-manifesto {
+    padding-top: 138px;
+    padding-bottom: 132px;
+    background:
+      linear-gradient(
+        180deg,
+        #080808 0,
+        #81807b 52px,
+        #f2f0e9 102px,
+        #f2f0e9 calc(100% - 104px),
+        #7b7a76 calc(100% - 50px),
+        #0b0b0b 100%
+      );
+  }
+
+  .fm-services,
+  .fm-work {
+    padding-top: 92px;
+    padding-bottom: 118px;
+  }
+
+  .fm-process {
+    padding-top: 142px;
+    padding-bottom: 140px;
+    background:
+      linear-gradient(
+        180deg,
+        #0d0d0d 0,
+        #83827e 52px,
+        #f2f0e9 102px,
+        #f2f0e9 calc(100% - 104px),
+        #777672 calc(100% - 50px),
+        #242424 100%
+      );
+  }
+
+  .fm-contact.fm-contact-form-section {
+    padding-top: 94px;
+    padding-bottom: 118px;
+  }
+
+  .fm-project-form {
+    padding: 24px;
+  }
+
+  .fm-project-form label > span {
+    font-size: 9px;
+  }
+
+  .fm-project-form input,
+  .fm-project-form textarea {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fm-scroll-depth {
+    translate: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}
