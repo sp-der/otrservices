@@ -3,14 +3,14 @@ import "./globals.css";
 import "./fixes.css";
 
 export const metadata: Metadata = {
-  title: "OTR Services | Built Different. Built for Business.",
+  title: "OTR Services | Built to Represent Your Business Right.",
   description:
-    "OTR Services builds custom websites, manages digital experiences, and develops brands for businesses that refuse to look generic.",
+    "OTR Services builds custom websites, manages digital experiences, and develops brands for businesses that want to represent themselves right.",
   metadataBase: new URL("https://otrservices.com"),
   openGraph: {
     title: "OTR Services",
     description:
-      "Websites, management, design, and brand support built around your business.",
+      "Websites, management, design, and brand support built to represent your business right.",
     type: "website",
   },
 };
