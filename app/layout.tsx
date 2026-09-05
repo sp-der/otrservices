@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./fixes.css";
 import "./ontherun.css";
+import "./branding.css";
 import PortfolioEmbeds from "./PortfolioEmbeds";
 
 export const metadata: Metadata = {
