@@ -3,8 +3,10 @@
 import { useEffect } from "react";
 
 const selectors = [
-  ".fm-manifesto-title",
-  ".fm-manifesto-copy",
+  ".fm-hero-copy-refresh > *",
+  ".fm-availability",
+  ".fm-manifesto-title > *",
+  ".fm-manifesto-copy > *",
   ".fm-proof-row > *",
   ".fm-services .fm-section-head > *",
   ".fm-service-list article",
@@ -13,7 +15,8 @@ const selectors = [
   ".fm-brand-break-inner > *",
   ".fm-process-head > *",
   ".fm-process-grid article",
-  ".fm-contact-inner > *",
+  ".fm-contact-heading > *",
+  ".fm-project-form",
   ".fm-footer-inner > *",
 ];
 
@@ -34,21 +37,23 @@ export default function DesktopMotionLayer() {
     const render = () => {
       frame = 0;
       const viewport = window.innerHeight || 1;
+      const center = viewport * 0.5;
 
       elements.forEach((element, index) => {
         const rect = element.getBoundingClientRect();
-        if (rect.bottom < -viewport * 0.35 || rect.top > viewport * 1.35) return;
+        if (rect.bottom < -viewport * 0.45 || rect.top > viewport * 1.45) return;
 
-        const raw = (viewport - rect.top) / (viewport + rect.height);
-        const progress = Math.max(0, Math.min(1, raw));
-        const centerStrength = Math.sin(progress * Math.PI);
-        const direction = 0.5 - progress;
-        const stagger = (index % 4) * 5;
-        const y = direction * 150 + stagger;
-        const opacity = 0.3 + centerStrength * 0.7;
-        const blur = (1 - centerStrength) * 5;
+        const elementCenter = rect.top + rect.height / 2;
+        const distance = (elementCenter - center) / viewport;
+        const clamped = Math.max(-1.1, Math.min(1.1, distance));
+        const abs = Math.abs(clamped);
+        const stagger = ((index % 4) - 1.5) * 3;
 
-        element.style.setProperty("--fm-desktop-y", `${y.toFixed(2)}px`);
+        const translateY = clamped * 112 + stagger;
+        const opacity = Math.max(0.22, 1 - Math.max(0, abs - 0.05) * 0.9);
+        const blur = Math.max(0, abs - 0.18) * 6;
+
+        element.style.setProperty("--fm-desktop-y", `${translateY.toFixed(2)}px`);
         element.style.setProperty("--fm-desktop-opacity", opacity.toFixed(3));
         element.style.setProperty("--fm-desktop-blur", `${blur.toFixed(2)}px`);
       });
