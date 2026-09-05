@@ -5,11 +5,10 @@
 }
 
 /*
- * Header brand crop
- * ScriptW.png has generous transparent canvas around the lettering, so the
- * image itself is intentionally oversized inside a clipped header viewport.
- * The viewport owns the header bounds, while the artwork is nudged upward so
- * the visible script fills the bar without ever crossing the bottom rule.
+ * HEADER BRAND
+ * ScriptW.png is a wide logo asset. Keep its native aspect ratio instead of
+ * forcing it into a square box. The header acts as the crop boundary so the
+ * visible script fills the bar while never crossing the divider.
  */
 .fm-header {
   height: 68px !important;
@@ -23,7 +22,7 @@
   left: 50% !important;
   top: 0 !important;
   z-index: 4;
-  width: 250px !important;
+  width: 320px !important;
   height: 67px !important;
   display: block !important;
   overflow: hidden !important;
@@ -34,11 +33,11 @@
   position: absolute !important;
   left: 50% !important;
   top: 50% !important;
-  width: 224px !important;
-  height: 224px !important;
+  width: 300px !important;
+  height: auto !important;
   max-width: none !important;
-  object-fit: contain !important;
-  transform: translate(-50%, -61%) !important;
+  object-fit: initial !important;
+  transform: translate(-50%, -50%) !important;
   transform-origin: center !important;
 }
 
@@ -147,25 +146,39 @@
 }
 
 /*
- * Dedicated desktop scroll system.
- * Transform is intentionally NOT transitioned. JS updates it once per frame,
- * which is much smoother than asking CSS to tween toward a new transform on
- * every scroll event. Opacity keeps a short reveal transition.
+ * DESKTOP MOTION
+ * Reveal and continuous drift use separate CSS properties so the browser does
+ * not tween toward a moving transform target every frame.
  */
 @media (min-width: 761px) {
   html .fm-site .otr-desk-motion {
-    --otr-scroll-y: 46px;
-    --otr-scroll-opacity: .18;
-    opacity: .18 !important;
+    opacity: 0 !important;
+    translate: 0 28px;
+    transition:
+      opacity .52s cubic-bezier(.16,1,.3,1),
+      translate .64s cubic-bezier(.16,1,.3,1) !important;
+  }
+
+  html .fm-site .otr-desk-motion.is-active {
+    opacity: 1 !important;
+    translate: 0 0;
+  }
+
+  html .fm-site .otr-desk-drift {
+    --otr-scroll-y: 0px;
     transform: translate3d(0, var(--otr-scroll-y), 0) !important;
-    transition: opacity .48s cubic-bezier(.16,1,.3,1) !important;
-    will-change: transform, opacity;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
   }
 
-  html .fm-site .otr-desk-motion.is-active {
-    opacity: var(--otr-scroll-opacity, 1) !important;
+  html .fm-site .otr-desk-drift.is-near {
+    will-change: transform;
+  }
+
+  /* Live iframe cards still reveal, but do not continuously transform. */
+  .fm-project-card {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 }
 
@@ -179,15 +192,16 @@
 
   .fm-brand {
     top: 0 !important;
-    width: 212px !important;
+    width: 280px !important;
     height: 57px !important;
     transform: translateX(-50%) !important;
   }
 
   .fm-brand img {
-    width: 194px !important;
-    height: 194px !important;
-    transform: translate(-50%, -61%) !important;
+    width: 250px !important;
+    height: auto !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
   }
 
   .fm-mobile-menu {
