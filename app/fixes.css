@@ -1,0 +1,5 @@
+@media (max-width: 1100px) and (min-width: 821px) {
+  .shell {
+    width: min(calc(100% - 46px), 1440px);
+  }
+}
