@@ -71,7 +71,7 @@ export default function Home() {
       <header className="otr-header">
         <div className="otr-shell otr-header-inner">
           <a className="otr-brand" href="#top" aria-label="On The Run Services home">
-            <span className="otr-mini-wordmark">On The Run</span>
+            <img className="otr-main-logo" src="/OTR.png" alt="OTR" />
           </a>
 
           <nav className="otr-nav" aria-label="Primary navigation">
@@ -123,13 +123,16 @@ export default function Home() {
               <div className="otr-scene-light" />
               <div className="otr-laptop">
                 <div className="otr-laptop-screen">
-                  <span className="otr-wordmark">On The Run</span>
+                  <img className="otr-script-logo otr-script-logo-screen" src="/ScriptW.png" alt="On The Run" />
                   <strong>MORE THAN WEBSITES</strong>
                   <small>IDEAS / BRANDS / WEBSITES / RESULTS</small>
                 </div>
                 <div className="otr-laptop-base" />
               </div>
-              <div className="otr-cup"><span>OTR</span><small>IDEAS<br />BRANDS<br />WEBSITES<br />RESULTS</small></div>
+              <div className="otr-cup">
+                <img className="otr-cup-logo" src="/OTR.png" alt="" />
+                <small>IDEAS<br />BRANDS<br />WEBSITES<br />RESULTS</small>
+              </div>
               <div className="otr-scene-copy">SAME MENTALITY.<br />DIFFERENT INDUSTRIES.</div>
             </div>
           </div>
@@ -190,7 +193,7 @@ export default function Home() {
       <section className="otr-wordmark-band" aria-label="On The Run">
         <div className="otr-shell otr-wordmark-band-inner">
           <small>IDEAS<br />BRANDS<br />WEBSITES<br />RESULTS</small>
-          <span className="otr-wordmark otr-wordmark-large">On The Run</span>
+          <img className="otr-script-logo otr-script-logo-band" src="/ScriptW.png" alt="On The Run" />
           <small>SAME MENTALITY.<br />DIFFERENT INDUSTRIES.</small>
         </div>
       </section>
@@ -225,7 +228,9 @@ export default function Home() {
             </div>
           </div>
           <div className="otr-phone-scene" aria-hidden="true">
-            <div className="otr-phone"><span className="otr-wordmark">On The Run</span></div>
+            <div className="otr-phone">
+              <img className="otr-script-logo otr-script-logo-phone" src="/ScriptW.png" alt="" />
+            </div>
             <span>BUILT DIFFERENT<br />FOR BUSINESSES</span>
           </div>
         </div>
@@ -233,7 +238,7 @@ export default function Home() {
 
       <footer className="otr-footer-v2">
         <div className="otr-shell otr-footer-v2-inner">
-          <span className="otr-mini-wordmark">On The Run</span>
+          <img className="otr-footer-logo" src="/OTR.png" alt="OTR" />
           <nav><a href="#top">Home</a><a href="#services">Services</a><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
           <small>© 2026 ON THE RUN. ALL RIGHTS RESERVED.</small>
         </div>
