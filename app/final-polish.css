@@ -1,0 +1,130 @@
+/* Final responsive polish. Keeps the current mobile motion path intact. */
+
+/* Remove service inquiry links from the service rows. */
+.fm-service-list article > a {
+  display: none !important;
+}
+
+/* Compact header with centered OTR mark. */
+.fm-header {
+  height: 68px !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.fm-brand {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  z-index: 4;
+  width: 64px !important;
+  transform: translate(-50%, -50%);
+}
+
+.fm-brand img {
+  width: 64px !important;
+  height: 38px !important;
+  object-fit: contain;
+}
+
+.fm-nav {
+  grid-column: 1;
+  justify-self: start;
+}
+
+.fm-header-cta {
+  grid-column: 3;
+  justify-self: end;
+}
+
+/* Pull the landing composition closer to the header. */
+.fm-hero-refresh {
+  min-height: calc(100svh - 68px) !important;
+}
+
+.fm-hero-inner-refresh {
+  min-height: calc(100svh - 68px) !important;
+  justify-content: flex-start !important;
+  padding-top: 72px !important;
+  padding-bottom: 48px !important;
+}
+
+.fm-availability {
+  top: 20px !important;
+}
+
+/* Stronger desktop-only continuous scroll depth. */
+@media (min-width: 761px) {
+  .fm-desktop-depth {
+    --fm-desktop-y: 0px;
+    --fm-desktop-opacity: 1;
+    --fm-desktop-blur: 0px;
+    translate: 0 var(--fm-desktop-y);
+    opacity: var(--fm-desktop-opacity) !important;
+    filter: blur(var(--fm-desktop-blur)) !important;
+    will-change: translate, opacity, filter;
+  }
+
+  .fm-motion-ready .fm-desktop-depth {
+    transition: opacity .08s linear, filter .08s linear;
+  }
+}
+
+@media (max-width: 760px) {
+  .fm-header {
+    height: 58px !important;
+    grid-template-columns: 1fr auto 1fr !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+
+  .fm-brand {
+    width: 56px !important;
+  }
+
+  .fm-brand img {
+    width: 56px !important;
+    height: 32px !important;
+  }
+
+  .fm-mobile-menu {
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .fm-mobile-menu nav {
+    top: 58px !important;
+  }
+
+  .fm-hero-refresh {
+    min-height: calc(100svh - 58px) !important;
+  }
+
+  .fm-hero-inner-refresh {
+    min-height: calc(100svh - 58px) !important;
+    justify-content: flex-start !important;
+    padding-top: 54px !important;
+    padding-bottom: 58px !important;
+  }
+
+  .fm-availability {
+    top: 16px !important;
+  }
+
+  /* Keep the full R visible without changing the desktop placement. */
+  .fm-hero-mark {
+    top: 49% !important;
+    right: -8% !important;
+    width: 96vw !important;
+    opacity: .115 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fm-desktop-depth {
+    translate: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+}
