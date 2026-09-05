@@ -77,7 +77,7 @@ export default function Home() {
           </div>
 
           <div className="fm-hero-copy fm-hero-copy-refresh">
-            <p className="fm-kicker">ON THE RUN / CREATIVE + DIGITAL</p>
+            <p className="fm-kicker">ON THE RUN / CREATIVE STUDIO</p>
             <h1>BUILT TO REPRESENT<br />YOUR BUSINESS <span>RIGHT.</span></h1>
             <p className="fm-hero-lead">Custom websites, management, branding, and creative support built to make your business look as serious as the work behind it.</p>
             <div className="fm-hero-actions-refresh">
@@ -198,7 +198,7 @@ export default function Home() {
 
       <footer className="fm-footer">
         <div className="fm-shell fm-footer-inner">
-          <div className="fm-footer-brand"><img src="/OTR.png" alt="OTR" /><span>ON THE RUN / CREATIVE + DIGITAL</span></div>
+          <div className="fm-footer-brand"><img src="/OTR.png" alt="OTR" /><span>ON THE RUN / CREATIVE STUDIO</span></div>
           <nav><a href="#services">Services</a><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
           <small>© 2026 OTR SERVICES</small>
         </div>
