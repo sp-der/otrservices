@@ -25,22 +25,32 @@ export default function DesktopMotionLayer() {
     const elements = Array.from(
       document.querySelectorAll<HTMLElement>(selectors.join(","))
     );
-
     if (!elements.length) return;
 
+    const nearby = new Set<HTMLElement>();
     elements.forEach((element) => element.classList.add("otr-desk-motion"));
 
     const observer = new IntersectionObserver(
       (entries) => {
+        let needsRender = false;
+
         entries.forEach((entry) => {
+          const element = entry.target as HTMLElement;
+
           if (entry.isIntersecting) {
-            (entry.target as HTMLElement).classList.add("is-active");
+            nearby.add(element);
+            element.classList.add("is-active");
+            needsRender = true;
+          } else {
+            nearby.delete(element);
           }
         });
+
+        if (needsRender) requestRender();
       },
       {
-        threshold: 0.12,
-        rootMargin: "0px 0px -8% 0px",
+        threshold: 0,
+        rootMargin: "45% 0px 45% 0px",
       }
     );
 
@@ -53,33 +63,33 @@ export default function DesktopMotionLayer() {
       const viewport = Math.max(window.innerHeight, 1);
       const center = viewport * 0.5;
 
-      elements.forEach((element) => {
+      nearby.forEach((element) => {
         const rect = element.getBoundingClientRect();
-        if (rect.bottom < -viewport * 0.5 || rect.top > viewport * 1.5) return;
-
-        const elementCenter = rect.top + rect.height / 2;
+        const elementCenter = rect.top + rect.height * 0.5;
         const distance = (elementCenter - center) / viewport;
         const clamped = Math.max(-1, Math.min(1, distance));
         const abs = Math.abs(clamped);
 
-        const y = clamped * 64;
-        const opacity = Math.max(0.56, 1 - Math.max(0, abs - 0.2) * 0.48);
+        /* Deliberately restrained so the page moves without feeling floaty. */
+        const y = clamped * 52;
+        const opacity = Math.max(0.68, 1 - Math.max(0, abs - 0.22) * 0.38);
 
-        element.style.setProperty("--otr-scroll-y", `${y.toFixed(2)}px`);
-        element.style.setProperty("--otr-scroll-opacity", opacity.toFixed(3));
+        element.style.setProperty("--otr-scroll-y", `${y}px`);
+        element.style.setProperty("--otr-scroll-opacity", `${opacity}`);
       });
     };
 
-    const requestRender = () => {
+    function requestRender() {
       if (!frame) frame = window.requestAnimationFrame(render);
-    };
+    }
 
-    render();
+    requestRender();
     window.addEventListener("scroll", requestRender, { passive: true });
     window.addEventListener("resize", requestRender, { passive: true });
 
     return () => {
       observer.disconnect();
+      nearby.clear();
       window.removeEventListener("scroll", requestRender);
       window.removeEventListener("resize", requestRender);
       if (frame) window.cancelAnimationFrame(frame);
