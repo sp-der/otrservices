@@ -6,9 +6,8 @@
 
 /*
  * HEADER BRAND
- * ScriptW.png is a wide logo asset. Keep its native aspect ratio instead of
- * forcing it into a square box. The header acts as the crop boundary so the
- * visible script fills the bar while never crossing the divider.
+ * No clipping, no crop math, no oversized square canvas. ScriptW keeps its
+ * true aspect ratio and is vertically contained inside the header itself.
  */
 .fm-header {
   height: 68px !important;
@@ -22,23 +21,31 @@
   left: 50% !important;
   top: 0 !important;
   z-index: 4;
-  width: 320px !important;
-  height: 67px !important;
-  display: block !important;
-  overflow: hidden !important;
+  width: 240px !important;
+  height: 68px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
   transform: translateX(-50%) !important;
 }
 
 .fm-brand img {
-  position: absolute !important;
-  left: 50% !important;
-  top: 50% !important;
-  width: 300px !important;
-  height: auto !important;
-  max-width: none !important;
-  object-fit: initial !important;
-  transform: translate(-50%, -50%) !important;
+  position: static !important;
+  display: block !important;
+  width: auto !important;
+  height: 62px !important;
+  max-width: 100% !important;
+  max-height: 62px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  transform: none !important;
   transform-origin: center !important;
+  transition: none !important;
+}
+
+.fm-brand:hover img {
+  transform: none !important;
 }
 
 .fm-nav {
@@ -235,16 +242,19 @@
 
   .fm-brand {
     top: 0 !important;
-    width: 280px !important;
-    height: 57px !important;
+    width: 210px !important;
+    height: 58px !important;
     transform: translateX(-50%) !important;
   }
 
   .fm-brand img {
-    width: 250px !important;
-    height: auto !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
+    position: static !important;
+    width: auto !important;
+    height: 52px !important;
+    max-width: 100% !important;
+    max-height: 52px !important;
+    object-fit: contain !important;
+    transform: none !important;
   }
 
   .fm-mobile-menu {
