@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./premium.css";
 import "./motion.css";
 import "./landing-refresh.css";
+import "./scroll-polish.css";
 import PortfolioEmbeds from "./PortfolioEmbeds";
 import MotionLayer from "./MotionLayer";
 import IntroLoader from "./IntroLoader";
