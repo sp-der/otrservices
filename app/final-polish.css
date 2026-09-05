@@ -18,13 +18,18 @@
   left: 50% !important;
   top: 50% !important;
   z-index: 4;
-  width: 64px !important;
+  width: 138px !important;
+  height: 68px !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: visible !important;
   transform: translate(-50%, -50%);
 }
 
 .fm-brand img {
-  width: 64px !important;
-  height: 38px !important;
+  width: 190px !important;
+  height: 190px !important;
+  max-width: none !important;
   object-fit: contain;
 }
 
@@ -38,7 +43,7 @@
   justify-self: end;
 }
 
-/* Pull the landing composition closer to the header. */
+/* Pull the desktop landing composition closer to the header. */
 .fm-hero-refresh {
   min-height: calc(100svh - 68px) !important;
 }
@@ -46,12 +51,41 @@
 .fm-hero-inner-refresh {
   min-height: calc(100svh - 68px) !important;
   justify-content: flex-start !important;
-  padding-top: 72px !important;
-  padding-bottom: 48px !important;
+  padding-top: 32px !important;
+  padding-bottom: 42px !important;
 }
 
 .fm-availability {
-  top: 20px !important;
+  top: 18px !important;
+  gap: 12px !important;
+  font-size: 10.5px !important;
+  letter-spacing: .17em !important;
+}
+
+.fm-availability i {
+  position: relative !important;
+  width: 10px !important;
+  height: 10px !important;
+  flex: 0 0 10px !important;
+  border-radius: 50% !important;
+  background: #44e066 !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+.fm-availability i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(68,224,102,.34);
+  animation: fmAvailabilityHalo 1.7s cubic-bezier(.2,.7,.2,1) infinite;
+}
+
+@keyframes fmAvailabilityHalo {
+  0% { opacity: .55; transform: scale(1); }
+  72% { opacity: 0; transform: scale(2.7); }
+  100% { opacity: 0; transform: scale(2.7); }
 }
 
 /* Stronger desktop-only continuous scroll depth. */
@@ -60,14 +94,14 @@
     --fm-desktop-y: 0px;
     --fm-desktop-opacity: 1;
     --fm-desktop-blur: 0px;
-    translate: 0 var(--fm-desktop-y);
+    transform: translate3d(0, var(--fm-desktop-y), 0) !important;
     opacity: var(--fm-desktop-opacity) !important;
     filter: blur(var(--fm-desktop-blur)) !important;
-    will-change: translate, opacity, filter;
+    will-change: transform, opacity, filter;
   }
 
   .fm-motion-ready .fm-desktop-depth {
-    transition: opacity .08s linear, filter .08s linear;
+    transition: opacity .08s linear, filter .08s linear !important;
   }
 }
 
@@ -81,11 +115,13 @@
 
   .fm-brand {
     width: 56px !important;
+    height: auto !important;
   }
 
   .fm-brand img {
     width: 56px !important;
     height: 32px !important;
+    max-width: 100% !important;
   }
 
   .fm-mobile-menu {
@@ -110,6 +146,14 @@
 
   .fm-availability {
     top: 16px !important;
+    font-size: 8.5px !important;
+    gap: 10px !important;
+  }
+
+  .fm-availability i {
+    width: 9px !important;
+    height: 9px !important;
+    flex-basis: 9px !important;
   }
 
   /* Keep the full R visible without changing the desktop placement. */
@@ -123,8 +167,13 @@
 
 @media (prefers-reduced-motion: reduce) {
   .fm-desktop-depth {
-    translate: none !important;
+    transform: none !important;
     opacity: 1 !important;
     filter: none !important;
+  }
+
+  .fm-availability i::after {
+    animation: none !important;
+    opacity: 0 !important;
   }
 }
