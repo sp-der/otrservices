@@ -97,7 +97,7 @@ export default function Home() {
         <div className="fm-shell fm-manifesto-grid">
           <div className="fm-manifesto-title">
             <p className="fm-kicker dark">WHY OTR</p>
-            <h2>Built for businesses that value clarity over noise.</h2>
+            <h2>We build around the business, not the template.</h2>
           </div>
           <div className="fm-manifesto-copy">
             <p>OTR combines design, development, management, and creative support so the digital side of your business feels intentional from end to end.</p>
