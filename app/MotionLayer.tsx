@@ -41,52 +41,54 @@ export default function MotionLayer() {
     const mobile = window.matchMedia("(max-width: 760px)").matches;
 
     root.classList.add("fm-motion-ready");
-
     const cleanup: Array<() => void> = [];
 
-    const revealElements = Array.from(
-      document.querySelectorAll<HTMLElement>(revealSelectors.join(","))
-    );
+    const revealElements = mobile
+      ? Array.from(document.querySelectorAll<HTMLElement>(revealSelectors.join(",")))
+      : [];
 
-    revealElements.forEach((element) => {
-      element.classList.add("fm-reveal");
-      const parent = element.parentElement;
-      if (parent) {
-        const siblings = Array.from(parent.children).filter((child) =>
-          revealElements.includes(child as HTMLElement)
+    if (mobile) {
+      revealElements.forEach((element) => {
+        element.classList.add("fm-reveal");
+        const parent = element.parentElement;
+        if (parent) {
+          const siblings = Array.from(parent.children).filter((child) =>
+            revealElements.includes(child as HTMLElement)
+          );
+          const index = Math.max(0, siblings.indexOf(element));
+          element.style.setProperty("--reveal-delay", `${Math.min(index * 70, 280)}ms`);
+        }
+      });
+
+      if (reduceMotion) {
+        root.classList.add("fm-reduced-motion");
+        revealElements.forEach((element) => element.classList.add("is-visible"));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              (entry.target as HTMLElement).classList.add("is-visible");
+              observer.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.1, rootMargin: "0px 0px -7% 0px" }
         );
-        const index = Math.max(0, siblings.indexOf(element));
-        element.style.setProperty("--reveal-delay", `${Math.min(index * 70, 280)}ms`);
+
+        revealElements.forEach((element) => observer.observe(element));
+        cleanup.push(() => observer.disconnect());
       }
-    });
-
-    if (reduceMotion) {
-      root.classList.add("fm-reduced-motion");
-      revealElements.forEach((element) => element.classList.add("is-visible"));
-    } else {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            (entry.target as HTMLElement).classList.add("is-visible");
-            observer.unobserve(entry.target);
-          });
-        },
-        { threshold: 0.1, rootMargin: "0px 0px -7% 0px" }
-      );
-
-      revealElements.forEach((element) => observer.observe(element));
-      cleanup.push(() => observer.disconnect());
     }
 
-    const depthElements = Array.from(
-      document.querySelectorAll<HTMLElement>(scrollDepthSelectors.join(","))
-    );
+    const depthElements = mobile
+      ? Array.from(document.querySelectorAll<HTMLElement>(scrollDepthSelectors.join(",")))
+      : [];
+
     depthElements.forEach((element) => element.classList.add("fm-scroll-depth"));
 
-    const parallaxElements = Array.from(
-      document.querySelectorAll<HTMLElement>(".fm-brand-break img, .fm-hero-mark")
-    );
+    const mobileParallax = mobile
+      ? Array.from(document.querySelectorAll<HTMLElement>(".fm-brand-break img, .fm-hero-mark"))
+      : [];
 
     const header = document.querySelector<HTMLElement>(".fm-header");
     const progress = document.createElement("div");
@@ -104,9 +106,7 @@ export default function MotionLayer() {
       progress.style.transform = `scaleX(${ratio})`;
       header?.classList.toggle("fm-header-scrolled", y > 24);
 
-      if (!reduceMotion) {
-        const travel = mobile ? 24 : 42;
-
+      if (!reduceMotion && mobile) {
         depthElements.forEach((element) => {
           const rect = element.getBoundingClientRect();
           if (rect.bottom < -viewport * 0.35 || rect.top > viewport * 1.35) return;
@@ -114,7 +114,7 @@ export default function MotionLayer() {
           const center = rect.top + rect.height / 2;
           const delta = (center - viewport / 2) / viewport;
           const clamped = Math.max(-1.2, Math.min(1.2, delta));
-          const translateY = clamped * travel;
+          const translateY = clamped * 24;
           const edge = Math.max(0, Math.abs(clamped) - 0.12);
           const opacity = Math.max(0.66, 1 - edge * 0.28);
 
@@ -122,7 +122,7 @@ export default function MotionLayer() {
           element.style.setProperty("--fm-depth-opacity", opacity.toFixed(3));
         });
 
-        parallaxElements.forEach((element) => {
+        mobileParallax.forEach((element) => {
           const rect = element.getBoundingClientRect();
           if (rect.bottom < -viewport || rect.top > viewport * 2) return;
           const center = rect.top + rect.height / 2;
@@ -207,7 +207,7 @@ export default function MotionLayer() {
 
       const magnetic = Array.from(
         document.querySelectorAll<HTMLElement>(
-          ".fm-header-cta, .fm-hero-primary, .fm-contact-copy a, .fm-service-list article > a, .fm-form-footer button"
+          ".fm-header-cta, .fm-hero-primary, .fm-contact-copy a, .fm-form-footer button"
         )
       );
 
@@ -243,6 +243,10 @@ export default function MotionLayer() {
 
     return () => {
       cleanup.forEach((fn) => fn());
+      revealElements.forEach((element) => {
+        element.classList.remove("fm-reveal", "is-visible");
+        element.style.removeProperty("--reveal-delay");
+      });
       root.classList.remove("fm-motion-ready", "fm-reduced-motion");
     };
   }, []);
