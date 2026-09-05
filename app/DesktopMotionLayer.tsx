@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const selectors = [
+const revealSelectors = [
   ".fm-manifesto-title",
   ".fm-manifesto-copy",
   ".fm-proof-row > *",
@@ -18,43 +18,84 @@ const selectors = [
   ".fm-footer-inner > *",
 ];
 
+/*
+ * Continuous drift stays off the live iframe cards. Moving iframe surfaces on
+ * every scroll frame is noticeably more expensive than moving text/content.
+ */
+const driftSelectors = [
+  ".fm-manifesto-title",
+  ".fm-manifesto-copy",
+  ".fm-proof-row > *",
+  ".fm-services .fm-section-head > *",
+  ".fm-service-list article",
+  ".fm-work .fm-section-head > *",
+  ".fm-brand-break-inner > *",
+  ".fm-process-head > *",
+  ".fm-process-grid article",
+  ".fm-contact-heading > *",
+  ".fm-project-form",
+  ".fm-footer-inner > *",
+];
+
 export default function DesktopMotionLayer() {
   useEffect(() => {
     if (!window.matchMedia("(min-width: 761px)").matches) return;
 
-    const elements = Array.from(
-      document.querySelectorAll<HTMLElement>(selectors.join(","))
+    const revealElements = Array.from(
+      document.querySelectorAll<HTMLElement>(revealSelectors.join(","))
     );
-    if (!elements.length) return;
+    const driftElements = Array.from(
+      document.querySelectorAll<HTMLElement>(driftSelectors.join(","))
+    );
 
-    const nearby = new Set<HTMLElement>();
-    elements.forEach((element) => element.classList.add("otr-desk-motion"));
+    if (!revealElements.length) return;
 
-    const observer = new IntersectionObserver(
+    revealElements.forEach((element) => element.classList.add("otr-desk-motion"));
+    driftElements.forEach((element) => element.classList.add("otr-desk-drift"));
+
+    const revealObserver = new IntersectionObserver(
       (entries) => {
-        let needsRender = false;
-
         entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
           const element = entry.target as HTMLElement;
-
-          if (entry.isIntersecting) {
-            nearby.add(element);
-            element.classList.add("is-active");
-            needsRender = true;
-          } else {
-            nearby.delete(element);
-          }
+          element.classList.add("is-active");
+          revealObserver.unobserve(element);
         });
-
-        if (needsRender) requestRender();
       },
       {
-        threshold: 0,
-        rootMargin: "45% 0px 45% 0px",
+        threshold: 0.1,
+        rootMargin: "0px 0px -7% 0px",
       }
     );
 
-    elements.forEach((element) => observer.observe(element));
+    revealElements.forEach((element) => revealObserver.observe(element));
+
+    const nearby = new Set<HTMLElement>();
+    const proximityObserver = new IntersectionObserver(
+      (entries) => {
+        let changed = false;
+
+        entries.forEach((entry) => {
+          const element = entry.target as HTMLElement;
+          if (entry.isIntersecting) {
+            nearby.add(element);
+            element.classList.add("is-near");
+          } else {
+            nearby.delete(element);
+            element.classList.remove("is-near");
+          }
+          changed = true;
+        });
+
+        if (changed) requestRender();
+      },
+      {
+        threshold: 0,
+        rootMargin: "32% 0px 32% 0px",
+      }
+    );
+
+    driftElements.forEach((element) => proximityObserver.observe(element));
 
     let frame = 0;
 
@@ -68,14 +109,9 @@ export default function DesktopMotionLayer() {
         const elementCenter = rect.top + rect.height * 0.5;
         const distance = (elementCenter - center) / viewport;
         const clamped = Math.max(-1, Math.min(1, distance));
-        const abs = Math.abs(clamped);
+        const y = clamped * 46;
 
-        /* Deliberately restrained so the page moves without feeling floaty. */
-        const y = clamped * 52;
-        const opacity = Math.max(0.68, 1 - Math.max(0, abs - 0.22) * 0.38);
-
-        element.style.setProperty("--otr-scroll-y", `${y}px`);
-        element.style.setProperty("--otr-scroll-opacity", `${opacity}`);
+        element.style.setProperty("--otr-scroll-y", `${y.toFixed(1)}px`);
       });
     };
 
@@ -88,16 +124,20 @@ export default function DesktopMotionLayer() {
     window.addEventListener("resize", requestRender, { passive: true });
 
     return () => {
-      observer.disconnect();
+      revealObserver.disconnect();
+      proximityObserver.disconnect();
       nearby.clear();
       window.removeEventListener("scroll", requestRender);
       window.removeEventListener("resize", requestRender);
       if (frame) window.cancelAnimationFrame(frame);
 
-      elements.forEach((element) => {
+      revealElements.forEach((element) => {
         element.classList.remove("otr-desk-motion", "is-active");
+      });
+
+      driftElements.forEach((element) => {
+        element.classList.remove("otr-desk-drift", "is-near");
         element.style.removeProperty("--otr-scroll-y");
-        element.style.removeProperty("--otr-scroll-opacity");
       });
     };
   }, []);
