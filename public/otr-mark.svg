@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">OTR Services mark</title>
+  <desc id="desc">Black oval OTR emblem with a cross between the O and R.</desc>
+  <ellipse cx="600" cy="360" rx="560" ry="318" fill="#050505"/>
+  <ellipse cx="600" cy="360" rx="540" ry="298" fill="none" stroke="#f4f2eb" stroke-width="13"/>
+  <ellipse cx="600" cy="360" rx="523" ry="281" fill="none" stroke="#050505" stroke-width="5"/>
+  <g fill="#f4f2eb">
+    <text x="115" y="545" font-family="Impact, Haettenschweiler, Arial Narrow Bold, sans-serif" font-size="430" font-style="italic" transform="rotate(-5 300 360)">O</text>
+    <path d="M570 115 L603 150 L636 115 L662 145 L713 143 L692 190 L676 230 L690 270 L734 233 L759 260 L800 244 L793 292 L830 333 L790 365 L797 417 L750 399 L706 433 L681 389 L668 436 L670 535 L704 587 L665 597 L621 652 L581 597 L538 587 L571 535 L575 437 L562 388 L536 433 L493 399 L446 417 L453 365 L412 333 L450 292 L444 244 L485 260 L511 233 L555 270 L569 231 L552 190 L531 143 L582 145 Z"/>
+    <text x="690" y="545" font-family="Impact, Haettenschweiler, Arial Narrow Bold, sans-serif" font-size="430" font-style="italic" transform="rotate(4 900 360)">R</text>
+  </g>
+</svg>
