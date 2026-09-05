@@ -182,6 +182,49 @@
   }
 }
 
+/*
+ * PORTFOLIO -> BRAND DIVIDER
+ * Remove inherited viewport-height spacing and keep this brand beat close to
+ * the client cards. The divider should read as part of the portfolio, not a
+ * separate empty screen.
+ */
+.fm-work {
+  padding-bottom: 48px !important;
+}
+
+.fm-brand-break {
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 42px 0 72px !important;
+}
+
+.fm-brand-break-inner {
+  min-height: 0 !important;
+  height: auto !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
+  align-items: center !important;
+  justify-content: initial !important;
+  gap: 44px !important;
+}
+
+.fm-brand-break-inner img {
+  width: clamp(360px, 27vw, 450px) !important;
+  max-width: none !important;
+  height: auto !important;
+  margin: 0 !important;
+}
+
+.fm-brand-break-inner small:first-child {
+  text-align: left !important;
+}
+
+.fm-brand-break-inner small:last-child {
+  text-align: right !important;
+}
+
 @media (max-width: 760px) {
   .fm-header {
     height: 58px !important;
@@ -250,5 +293,36 @@
     width: 11px;
     height: 11px;
     flex-basis: 11px;
+  }
+
+  .fm-work {
+    padding-bottom: 24px !important;
+  }
+
+  .fm-brand-break {
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 34px 0 62px !important;
+  }
+
+  .fm-brand-break-inner {
+    min-height: 0 !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 24px !important;
+  }
+
+  .fm-brand-break-inner img {
+    width: min(90vw, 390px) !important;
+    max-width: 390px !important;
+    height: auto !important;
+  }
+
+  .fm-brand-break-inner small:first-child,
+  .fm-brand-break-inner small:last-child {
+    text-align: center !important;
   }
 }
