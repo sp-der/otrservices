@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./premium.css";
+import "./motion.css";
 import PortfolioEmbeds from "./PortfolioEmbeds";
+import MotionLayer from "./MotionLayer";
 
 export const metadata: Metadata = {
   title: "OTR Services | On The Run",
@@ -25,6 +27,7 @@ export default function RootLayout({
       <body>
         {children}
         <PortfolioEmbeds />
+        <MotionLayer />
       </body>
     </html>
   );
