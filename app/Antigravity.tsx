@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-unknown-property */
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { MutableRefObject } from 'react';
 import * as THREE from 'three';
 import './Antigravity.css';
@@ -67,7 +67,6 @@ function AntigravityInner({
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const { viewport } = useThree();
   const dummy = useMemo(() => new THREE.Object3D(), []);
-
   const lastMousePos = useRef({ x: 0, y: 0 });
   const lastMouseMoveTime = useRef(0);
   const virtualMouse = useRef({ x: 0, y: 0 });
@@ -78,15 +77,12 @@ function AntigravityInner({
     const height = viewport.height || 100;
 
     for (let i = 0; i < count; i += 1) {
-      const t = Math.random() * 100;
-      const speed = 0.01 + Math.random() / 200;
       const x = (Math.random() - 0.5) * width;
       const y = (Math.random() - 0.5) * height;
       const z = (Math.random() - 0.5) * 20;
-
       temp.push({
-        t,
-        speed,
+        t: Math.random() * 100,
+        speed: 0.01 + Math.random() / 200,
         mx: x,
         my: y,
         mz: z,
@@ -106,20 +102,20 @@ function AntigravityInner({
 
     const v = state.viewport;
     const m = pointerRef.current;
+    const now = state.clock.elapsedTime;
     const mouseDist = Math.hypot(m.x - lastMousePos.current.x, m.y - lastMousePos.current.y);
 
     if (mouseDist > 0.001) {
-      lastMouseMoveTime.current = Date.now();
+      lastMouseMoveTime.current = now;
       lastMousePos.current = { x: m.x, y: m.y };
     }
 
     let destX = (m.x * v.width) / 2;
     let destY = (m.y * v.height) / 2;
 
-    if (autoAnimate && Date.now() - lastMouseMoveTime.current > 2000) {
-      const time = state.clock.getElapsedTime();
-      destX = Math.sin(time * 0.5) * (v.width / 4);
-      destY = Math.cos(time) * (v.height / 4);
+    if (autoAnimate && now - lastMouseMoveTime.current > 2) {
+      destX = Math.sin(now * 0.5) * (v.width / 4);
+      destY = Math.cos(now) * (v.height / 4);
     }
 
     const smoothFactor = 0.05;
@@ -128,9 +124,10 @@ function AntigravityInner({
 
     const targetX = virtualMouse.current.x;
     const targetY = virtualMouse.current.y;
-    const globalRotation = state.clock.getElapsedTime() * rotationSpeed;
+    const globalRotation = now * rotationSpeed;
 
-    particles.forEach((particle, i) => {
+    for (let i = 0; i < particles.length; i += 1) {
+      const particle = particles[i];
       const t = (particle.t += particle.speed / 2);
       const projectionFactor = 1 - particle.cz / 50;
       const projectedTargetX = targetX * projectionFactor;
@@ -167,27 +164,29 @@ function AntigravityInner({
         particle.cy - projectedTargetY,
       );
       const distFromRing = Math.abs(currentDistToMouse - ringRadius);
-      const scaleFactor = Math.max(0, Math.min(1, 1 - distFromRing / 10));
-      const finalScale =
-        scaleFactor *
-        (0.8 + Math.sin(t * pulseSpeed) * 0.2 * particleVariance) *
-        particleSize;
+      const ringInfluence = Math.max(0, Math.min(1, 1 - distFromRing / 10));
+      const pulse = 0.9 + Math.sin(t * pulseSpeed) * 0.1 * particleVariance;
+
+      // Keep a subtle particle field visible everywhere, then let the magnetic
+      // ring swell nearby particles. The original zero baseline made the layer
+      // appear completely absent on large sections.
+      const finalScale = particleSize * (0.18 + ringInfluence * 0.82) * pulse;
 
       dummy.scale.set(finalScale, finalScale, finalScale);
       dummy.updateMatrix();
       mesh.setMatrixAt(i, dummy.matrix);
-    });
+    }
 
     mesh.instanceMatrix.needsUpdate = true;
   });
 
   return (
-    <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
+    <instancedMesh ref={meshRef} args={[undefined, undefined, count]} frustumCulled={false}>
       {particleShape === 'capsule' && <capsuleGeometry args={[0.1, 0.4, 4, 8]} />}
-      {particleShape === 'sphere' && <sphereGeometry args={[0.2, 16, 16]} />}
+      {particleShape === 'sphere' && <sphereGeometry args={[0.2, 12, 12]} />}
       {particleShape === 'box' && <boxGeometry args={[0.3, 0.3, 0.3]} />}
       {particleShape === 'tetrahedron' && <tetrahedronGeometry args={[0.3]} />}
-      <meshBasicMaterial color={color} transparent opacity={0.92} />
+      <meshBasicMaterial color={color} transparent opacity={0.88} toneMapped={false} />
     </instancedMesh>
   );
 }
@@ -195,11 +194,24 @@ function AntigravityInner({
 export default function Antigravity({ className = '', ...props }: AntigravityProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pointerRef = useRef<PointerPosition>({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry?.isIntersecting ?? false),
+      { rootMargin: '180px 0px' },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const updatePointer = (event: PointerEvent) => {
       const el = containerRef.current;
-      if (!el) return;
+      if (!el || !isVisible) return;
       const rect = el.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
 
@@ -217,13 +229,14 @@ export default function Antigravity({ className = '', ...props }: AntigravityPro
 
     window.addEventListener('pointermove', updatePointer, { passive: true });
     return () => window.removeEventListener('pointermove', updatePointer);
-  }, []);
+  }, [isVisible]);
 
   return (
     <div ref={containerRef} className={`antigravity ${className}`.trim()} aria-hidden="true">
       <Canvas
         camera={{ position: [0, 0, 50], fov: 35 }}
-        dpr={[1, 1.5]}
+        dpr={1}
+        frameloop={isVisible ? 'always' : 'never'}
         gl={{ alpha: true, antialias: false, powerPreference: 'high-performance' }}
       >
         <AntigravityInner {...props} pointerRef={pointerRef} />
