@@ -39,7 +39,7 @@
    panels instead of starting/stopping on a visible horizontal edge. */
 .fm-dotgrid-zone > .dot-grid {
   z-index: 0;
-  opacity: 0.4;
+  opacity: 0.30;
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0,
