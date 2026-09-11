@@ -131,6 +131,44 @@
   box-shadow: 0 22px 70px rgba(217, 70, 239, 0.09) !important;
 }
 
+/* Readability pass for the small copy sitting over the dot field.
+   Use a Helvetica-first bold stack, brighter text, and slightly larger sizing. */
+.fm-dotgrid-zone .fm-section-head > p,
+.fm-dotgrid-zone .fm-service-list article > p,
+.fm-dotgrid-zone .fm-project-info > p,
+.fm-dotgrid-zone .fm-project-category,
+.fm-dotgrid-zone .fm-project-top,
+.fm-dotgrid-zone .fm-kicker,
+.fm-dotgrid-zone .fm-brand-break small {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-weight: 700 !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+.fm-dotgrid-zone .fm-section-head > p,
+.fm-dotgrid-zone .fm-service-list article > p,
+.fm-dotgrid-zone .fm-project-info > p {
+  color: rgba(245, 244, 239, 0.86) !important;
+  font-size: clamp(13px, 0.82vw, 15px) !important;
+  line-height: 1.48 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.fm-dotgrid-zone .fm-service-list article > p {
+  max-width: 620px;
+}
+
+.fm-dotgrid-zone .fm-kicker,
+.fm-dotgrid-zone .fm-project-top,
+.fm-dotgrid-zone .fm-project-category,
+.fm-dotgrid-zone .fm-brand-break small {
+  color: rgba(245, 244, 239, 0.78) !important;
+  font-size: clamp(9px, 0.58vw, 11px) !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.11em !important;
+}
+
 @media (max-width: 760px) {
   .fm-dotgrid-zone > .dot-grid {
     -webkit-mask-image: linear-gradient(
@@ -152,5 +190,19 @@
   .fm-dotgrid-zone::before,
   .fm-dotgrid-zone::after {
     height: 150px;
+  }
+
+  .fm-dotgrid-zone .fm-section-head > p,
+  .fm-dotgrid-zone .fm-service-list article > p,
+  .fm-dotgrid-zone .fm-project-info > p {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+
+  .fm-dotgrid-zone .fm-kicker,
+  .fm-dotgrid-zone .fm-project-top,
+  .fm-dotgrid-zone .fm-project-category,
+  .fm-dotgrid-zone .fm-brand-break small {
+    font-size: 9px !important;
   }
 }
