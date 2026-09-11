@@ -4,6 +4,12 @@
   display: none !important;
 }
 
+/* The old blurred cursor glow repainted a large composited layer on every
+   pointer move. Interactive section effects now carry that visual job. */
+.fm-cursor-glow {
+  display: none !important;
+}
+
 /*
  * HEADER BRAND
  * No clipping, no crop math, no oversized square canvas. ScriptW keeps its
@@ -154,8 +160,8 @@
 
 /*
  * DESKTOP MOTION
- * Reveal and continuous drift use separate CSS properties so the browser does
- * not tween toward a moving transform target every frame.
+ * Reveal stays lightweight. Continuous scroll drift is intentionally disabled
+ * in JS so scrolling does not force dozens of layout reads and transforms.
  */
 @media (min-width: 761px) {
   html .fm-site .otr-desk-motion {
@@ -171,18 +177,6 @@
     translate: 0 0;
   }
 
-  html .fm-site .otr-desk-drift {
-    --otr-scroll-y: 0px;
-    transform: translate3d(0, var(--otr-scroll-y), 0) !important;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-  }
-
-  html .fm-site .otr-desk-drift.is-near {
-    will-change: transform;
-  }
-
-  /* Live iframe cards still reveal, but do not continuously transform. */
   .fm-project-card {
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
@@ -291,7 +285,6 @@
     flex-basis: 9px !important;
   }
 
-  /* Keep the complete OTR hero mark inside the phone viewport. */
   .fm-hero-mark {
     top: 48% !important;
     right: -2% !important;
