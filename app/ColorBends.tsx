@@ -202,7 +202,7 @@ export default function ColorBends({
     });
     rendererRef.current = renderer;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
     renderer.setClearColor(0x000000, transparent ? 0 : 1);
     renderer.domElement.style.width = "100%";
     renderer.domElement.style.height = "100%";
@@ -210,6 +210,7 @@ export default function ColorBends({
     container.appendChild(renderer.domElement);
 
     const clock = new THREE.Clock();
+    let inView = true;
 
     const handleResize = () => {
       const w = container.clientWidth || 1;
@@ -222,23 +223,34 @@ export default function ColorBends({
     const resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(container);
 
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry?.isIntersecting ?? false;
+        if (inView) clock.getDelta();
+      },
+      { rootMargin: "120px 0px" }
+    );
+    intersectionObserver.observe(container);
+
     const loop = () => {
-      const dt = clock.getDelta();
-      const elapsed = clock.elapsedTime;
-      material.uniforms.uTime.value = elapsed;
+      if (inView && !document.hidden) {
+        const dt = clock.getDelta();
+        const elapsed = clock.elapsedTime;
+        material.uniforms.uTime.value = elapsed;
 
-      const deg = (rotationRef.current % 360) + autoRotateRef.current * elapsed;
-      const rad = (deg * Math.PI) / 180;
-      const c = Math.cos(rad);
-      const s = Math.sin(rad);
-      material.uniforms.uRot.value.set(c, s);
+        const deg = (rotationRef.current % 360) + autoRotateRef.current * elapsed;
+        const rad = (deg * Math.PI) / 180;
+        const c = Math.cos(rad);
+        const s = Math.sin(rad);
+        material.uniforms.uRot.value.set(c, s);
 
-      const cur = pointerCurrentRef.current;
-      const tgt = pointerTargetRef.current;
-      const amt = Math.min(1, dt * pointerSmoothRef.current);
-      cur.lerp(tgt, amt);
-      material.uniforms.uPointer.value.copy(cur);
-      renderer.render(scene, camera);
+        const cur = pointerCurrentRef.current;
+        const tgt = pointerTargetRef.current;
+        const amt = Math.min(1, dt * pointerSmoothRef.current);
+        cur.lerp(tgt, amt);
+        material.uniforms.uPointer.value.copy(cur);
+        renderer.render(scene, camera);
+      }
       rafRef.current = requestAnimationFrame(loop);
     };
 
@@ -247,6 +259,7 @@ export default function ColorBends({
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       resizeObserver.disconnect();
+      intersectionObserver.disconnect();
       geometry.dispose();
       material.dispose();
       renderer.dispose();
@@ -305,7 +318,7 @@ export default function ColorBends({
       pointerTargetRef.current.set(x, y);
     };
 
-    container.addEventListener("pointermove", handlePointerMove);
+    container.addEventListener("pointermove", handlePointerMove, { passive: true });
     return () => {
       container.removeEventListener("pointermove", handlePointerMove);
     };
