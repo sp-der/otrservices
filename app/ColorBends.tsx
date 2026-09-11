@@ -150,7 +150,6 @@ export default function ColorBends({
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const rafRef = useRef<number | null>(null);
   const materialRef = useRef<THREE.ShaderMaterial | null>(null);
-  const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const rotationRef = useRef(rotation);
   const autoRotateRef = useRef(autoRotate);
   const pointerTargetRef = useRef(new THREE.Vector2(0, 0));
@@ -220,14 +219,8 @@ export default function ColorBends({
     };
 
     handleResize();
-
-    if ("ResizeObserver" in window) {
-      const ro = new ResizeObserver(handleResize);
-      ro.observe(container);
-      resizeObserverRef.current = ro;
-    } else {
-      window.addEventListener("resize", handleResize);
-    }
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(container);
 
     const loop = () => {
       const dt = clock.getDelta();
@@ -253,8 +246,7 @@ export default function ColorBends({
 
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-      if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
-      else window.removeEventListener("resize", handleResize);
+      resizeObserver.disconnect();
       geometry.dispose();
       material.dispose();
       renderer.dispose();
@@ -291,7 +283,7 @@ export default function ColorBends({
       return new THREE.Vector3(v[0] / 255, v[1] / 255, v[2] / 255);
     };
 
-    const arr = (colors || []).filter(Boolean).slice(0, MAX_COLORS).map(toVec3);
+    const arr = colors.filter(Boolean).slice(0, MAX_COLORS).map(toVec3);
     for (let i = 0; i < MAX_COLORS; i++) {
       const vec = material.uniforms.uColors.value[i] as THREE.Vector3;
       if (i < arr.length) vec.copy(arr[i]);
@@ -314,7 +306,9 @@ export default function ColorBends({
     };
 
     container.addEventListener("pointermove", handlePointerMove);
-    return () => container.removeEventListener("pointermove", handlePointerMove);
+    return () => {
+      container.removeEventListener("pointermove", handlePointerMove);
+    };
   }, []);
 
   return (
