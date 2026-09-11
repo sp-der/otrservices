@@ -31,6 +31,18 @@
 .fm-hero-inner-refresh {
   position: relative;
   z-index: 2;
+  pointer-events: none;
+}
+
+/* Let the shader receive pointer movement across the full hero while
+   preserving the actual interactive controls above it. */
+.fm-hero-inner-refresh a,
+.fm-hero-inner-refresh button,
+.fm-hero-inner-refresh summary,
+.fm-hero-inner-refresh input,
+.fm-hero-inner-refresh textarea,
+.fm-hero-inner-refresh select {
+  pointer-events: auto;
 }
 
 @media (max-width: 820px) {
