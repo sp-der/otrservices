@@ -160,7 +160,7 @@ export default function Home() {
           exponent={1.45}
           decay={0.035}
           intensity={0.75}
-          color="#FF9FFC"
+          color="#D946EF"
         />
 
         <div className="fm-shell">
