@@ -1,6 +1,6 @@
 import ColorBends from "./ColorBends";
 import CursorGrid from "./CursorGrid";
-import DitherCursor from "./DitherCursor";
+import DotGrid from "./DotGrid";
 import ProjectForm from "./ProjectForm";
 
 const services = [
@@ -43,6 +43,18 @@ const process = [
   ["03", "BUILD", "We turn the plan into a polished responsive product and handle the details properly."],
   ["04", "RUN", "We launch, keep support close, and stay ready as the business keeps moving."],
 ];
+
+const dotGridProps = {
+  dotSize: 10,
+  gap: 15,
+  baseColor: "#5227FF",
+  activeColor: "#5227FF",
+  proximity: 120,
+  shockRadius: 250,
+  shockStrength: 5,
+  resistance: 750,
+  returnDuration: 1.5,
+};
 
 export default function Home() {
   return (
@@ -153,15 +165,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="fm-services fm-services-dither" id="services">
-        <DitherCursor
-          ditherSize={6}
-          radius={0.14}
-          exponent={1.45}
-          decay={0.035}
-          intensity={0.75}
-          color="#D946EF"
-        />
+      <section className="fm-services fm-services-dotgrid" id="services">
+        <DotGrid {...dotGridProps} />
 
         <div className="fm-shell">
           <div className="fm-section-head">
@@ -184,15 +189,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="fm-work fm-work-dither" id="work">
-        <DitherCursor
-          ditherSize={6}
-          radius={0.14}
-          exponent={1.45}
-          decay={0.035}
-          intensity={0.75}
-          color="#D946EF"
-        />
+      <section className="fm-work fm-work-dotgrid" id="work">
+        <DotGrid {...dotGridProps} />
 
         <div className="fm-shell">
           <div className="fm-section-head fm-section-head-work">
