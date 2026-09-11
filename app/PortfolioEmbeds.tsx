@@ -11,6 +11,8 @@ const embeds = [
 
 export default function PortfolioEmbeds() {
   useEffect(() => {
+    const visuals: Element[] = [];
+
     embeds.forEach(({ card, name, url }) => {
       const visual = document.querySelector(`.project-card-${card} .project-visual`);
       if (!visual || visual.querySelector("iframe")) return;
@@ -23,11 +25,39 @@ export default function PortfolioEmbeds() {
             <a href="${url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${name} website">OPEN ↗</a>
           </div>
           <div class="site-preview-window">
-            <iframe src="${url}" title="${name} website preview" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            <iframe data-src="${url}" title="${name} website preview" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
           </div>
         </div>
       `;
+      visuals.push(visual);
     });
+
+    const setActive = (visual: Element, active: boolean) => {
+      const iframe = visual.querySelector<HTMLIFrameElement>("iframe");
+      if (!iframe) return;
+      const target = iframe.dataset.src;
+      if (!target) return;
+
+      if (active) {
+        if (!iframe.src || iframe.src === "about:blank") iframe.src = target;
+      } else if (iframe.src && iframe.src !== "about:blank") {
+        iframe.src = "about:blank";
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => setActive(entry.target, entry.isIntersecting));
+      },
+      { rootMargin: "650px 0px", threshold: 0 }
+    );
+
+    visuals.forEach(visual => observer.observe(visual));
+
+    return () => {
+      observer.disconnect();
+      visuals.forEach(visual => setActive(visual, false));
+    };
   }, []);
 
   return null;
