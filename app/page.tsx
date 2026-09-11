@@ -1,5 +1,6 @@
 import ColorBends from "./ColorBends";
 import CursorGrid from "./CursorGrid";
+import DitherCursor from "./DitherCursor";
 import ProjectForm from "./ProjectForm";
 
 const services = [
@@ -152,7 +153,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="fm-services" id="services">
+      <section className="fm-services fm-services-dither" id="services">
+        <DitherCursor
+          ditherSize={6}
+          radius={0.1}
+          exponent={2}
+          decay={0.01}
+          intensity={0.5}
+          color="#FF9FFC"
+        />
+
         <div className="fm-shell">
           <div className="fm-section-head">
             <div>
