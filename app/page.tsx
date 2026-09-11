@@ -1,4 +1,5 @@
 import ColorBends from "./ColorBends";
+import CursorGrid from "./CursorGrid";
 import ProjectForm from "./ProjectForm";
 
 const services = [
@@ -112,10 +113,29 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="fm-manifesto" id="about">
+      <section className="fm-manifesto fm-manifesto-cursor" id="about">
+        <div className="otr-cursor-grid-layer">
+          <CursorGrid
+            cellSize={70}
+            color="#D946EF"
+            radius={140}
+            falloff="smooth"
+            holdTime={400}
+            fadeDuration={800}
+            lineWidth={1.2}
+            maxOpacity={1}
+            fillOpacity={0}
+            gridOpacity={0}
+            cellRadius={0}
+            clickPulse
+            pulseSpeed={600}
+          />
+        </div>
+        <div className="otr-cursor-grid-shade" aria-hidden="true" />
+
         <div className="fm-shell fm-manifesto-grid">
           <div className="fm-manifesto-title">
-            <p className="fm-kicker dark">WHY OTR</p>
+            <p className="fm-kicker">WHY OTR</p>
             <h2>We build around the business, not the template.</h2>
           </div>
           <div className="fm-manifesto-copy">
