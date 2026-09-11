@@ -1,0 +1,52 @@
+.color-bends-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.fm-hero-refresh {
+  position: relative;
+  isolation: isolate;
+}
+
+.otr-color-bends {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.otr-color-bends-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 26% 44%, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.36) 48%, rgba(0, 0, 0, 0.76) 100%),
+    linear-gradient(180deg, rgba(5, 5, 5, 0.28) 0%, rgba(5, 5, 5, 0.12) 45%, rgba(5, 5, 5, 0.72) 100%);
+}
+
+.fm-hero-inner-refresh {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 820px) {
+  .otr-color-bends {
+    opacity: 0.86;
+  }
+
+  .otr-color-bends-overlay {
+    background:
+      radial-gradient(circle at 50% 35%, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.42) 60%, rgba(0, 0, 0, 0.78) 100%),
+      linear-gradient(180deg, rgba(5, 5, 5, 0.22) 0%, rgba(5, 5, 5, 0.2) 55%, rgba(5, 5, 5, 0.78) 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .otr-color-bends {
+    opacity: 0.62;
+  }
+}
