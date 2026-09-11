@@ -184,7 +184,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="fm-work" id="work">
+      <section className="fm-work fm-work-dither" id="work">
+        <DitherCursor
+          ditherSize={6}
+          radius={0.14}
+          exponent={1.45}
+          decay={0.035}
+          intensity={0.75}
+          color="#D946EF"
+        />
+
         <div className="fm-shell">
           <div className="fm-section-head fm-section-head-work">
             <div>
