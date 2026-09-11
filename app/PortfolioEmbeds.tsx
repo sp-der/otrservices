@@ -4,9 +4,9 @@ import { useEffect } from "react";
 
 const embeds = [
   { card: 1, name: "Pressed In Pink", url: "https://pressedinpink.com" },
-  { card: 2, name: "Pacific Stay Properties", url: "https://pacificstay.vercel.app" },
+  { card: 2, name: "Pacific Stay Properties", url: "https://pacificstayproperties.com" },
   { card: 3, name: "JMB 2 Creations", url: "https://jmb2creations.com" },
-  { card: 4, name: "Muerto De Hambre", url: "https://meurtodehambre.vercel.app" },
+  { card: 4, name: "Muerto De Hambre", url: "https://mdhgrill.com" },
 ];
 
 export default function PortfolioEmbeds() {
