@@ -1,0 +1,56 @@
+.dot-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.dot-grid__wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.dot-grid__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.fm-services-dotgrid,
+.fm-work-dotgrid {
+  position: relative;
+  overflow: hidden;
+}
+
+.fm-services-dotgrid > .fm-shell,
+.fm-work-dotgrid > .fm-shell {
+  position: relative;
+  z-index: 1;
+}
+
+/* Preserve the glassy service-row treatment over the new dot field. */
+.fm-services-dotgrid .fm-service-list {
+  border-top-color: rgba(217, 70, 239, 0.35) !important;
+}
+
+.fm-services-dotgrid .fm-service-list article {
+  background: rgba(8, 8, 8, 0.5) !important;
+  border-bottom-color: rgba(217, 70, 239, 0.35) !important;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.fm-services-dotgrid .fm-service-list article:hover {
+  background: rgba(8, 8, 8, 0.5) !important;
+  border-color: #d946ef !important;
+  box-shadow: 0 22px 70px rgba(217, 70, 239, 0.09) !important;
+}
