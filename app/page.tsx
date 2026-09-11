@@ -1,3 +1,4 @@
+import Antigravity from "./Antigravity";
 import ColorBends from "./ColorBends";
 import CursorGrid from "./CursorGrid";
 import DotGrid from "./DotGrid";
@@ -54,6 +55,19 @@ const dotGridProps = {
   shockStrength: 5,
   resistance: 750,
   returnDuration: 1.5,
+};
+
+const antigravityProps = {
+  count: 300,
+  magnetRadius: 6,
+  ringRadius: 7,
+  waveSpeed: 0.4,
+  waveAmplitude: 1,
+  particleSize: 1.5,
+  lerpSpeed: 0.05,
+  color: "#FF9FFC",
+  autoAnimate: true,
+  particleVariance: 1,
 };
 
 export default function Home() {
@@ -227,30 +241,34 @@ export default function Home() {
         </section>
       </div>
 
-      <section className="fm-process">
-        <div className="fm-shell">
-          <div className="fm-process-head">
-            <p className="fm-kicker dark">PROCESS / 03</p>
-            <h2>Clear from the first conversation to launch.</h2>
-          </div>
-          <div className="fm-process-grid">
-            {process.map(([number, title, copy]) => (
-              <article key={number}><span>{number}</span><h3>{title}</h3><p>{copy}</p></article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="fm-antigravity-zone">
+        <Antigravity {...antigravityProps} />
 
-      <section className="fm-contact fm-contact-form-section" id="contact">
-        <div className="fm-shell fm-contact-inner fm-contact-form-inner">
-          <div className="fm-contact-heading">
-            <p className="fm-kicker">START A PROJECT / 04</p>
-            <h2>TELL US WHAT<br />YOU&apos;RE BUILDING.</h2>
-            <p>Give us the basics and what you want the website to accomplish. We&apos;ll take it from there.</p>
+        <section className="fm-process">
+          <div className="fm-shell">
+            <div className="fm-process-head">
+              <p className="fm-kicker dark">PROCESS / 03</p>
+              <h2>Clear from the first conversation to launch.</h2>
+            </div>
+            <div className="fm-process-grid">
+              {process.map(([number, title, copy]) => (
+                <article key={number}><span>{number}</span><h3>{title}</h3><p>{copy}</p></article>
+              ))}
+            </div>
           </div>
-          <ProjectForm />
-        </div>
-      </section>
+        </section>
+
+        <section className="fm-contact fm-contact-form-section" id="contact">
+          <div className="fm-shell fm-contact-inner fm-contact-form-inner">
+            <div className="fm-contact-heading">
+              <p className="fm-kicker">START A PROJECT / 04</p>
+              <h2>TELL US WHAT<br />YOU&apos;RE BUILDING.</h2>
+              <p>Give us the basics and what you want the website to accomplish. We&apos;ll take it from there.</p>
+            </div>
+            <ProjectForm />
+          </div>
+        </section>
+      </div>
 
       <footer className="fm-footer">
         <div className="fm-shell fm-footer-inner">
