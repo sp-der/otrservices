@@ -241,34 +241,32 @@ export default function Home() {
         </section>
       </div>
 
-      <div className="fm-antigravity-zone">
-        <Antigravity {...antigravityProps} />
-
-        <section className="fm-process">
-          <div className="fm-shell">
-            <div className="fm-process-head">
-              <p className="fm-kicker dark">PROCESS / 03</p>
-              <h2>Clear from the first conversation to launch.</h2>
-            </div>
-            <div className="fm-process-grid">
-              {process.map(([number, title, copy]) => (
-                <article key={number}><span>{number}</span><h3>{title}</h3><p>{copy}</p></article>
-              ))}
-            </div>
+      <section className="fm-process fm-antigravity-panel">
+        <Antigravity {...antigravityProps} className="fm-antigravity-field" />
+        <div className="fm-shell">
+          <div className="fm-process-head">
+            <p className="fm-kicker dark">PROCESS / 03</p>
+            <h2>Clear from the first conversation to launch.</h2>
           </div>
-        </section>
-
-        <section className="fm-contact fm-contact-form-section" id="contact">
-          <div className="fm-shell fm-contact-inner fm-contact-form-inner">
-            <div className="fm-contact-heading">
-              <p className="fm-kicker">START A PROJECT / 04</p>
-              <h2>TELL US WHAT<br />YOU&apos;RE BUILDING.</h2>
-              <p>Give us the basics and what you want the website to accomplish. We&apos;ll take it from there.</p>
-            </div>
-            <ProjectForm />
+          <div className="fm-process-grid">
+            {process.map(([number, title, copy]) => (
+              <article key={number}><span>{number}</span><h3>{title}</h3><p>{copy}</p></article>
+            ))}
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      <section className="fm-contact fm-contact-form-section fm-antigravity-panel" id="contact">
+        <Antigravity {...antigravityProps} className="fm-antigravity-field" />
+        <div className="fm-shell fm-contact-inner fm-contact-form-inner">
+          <div className="fm-contact-heading">
+            <p className="fm-kicker">START A PROJECT / 04</p>
+            <h2>TELL US WHAT<br />YOU&apos;RE BUILDING.</h2>
+            <p>Give us the basics and what you want the website to accomplish. We&apos;ll take it from there.</p>
+          </div>
+          <ProjectForm />
+        </div>
+      </section>
 
       <footer className="fm-footer">
         <div className="fm-shell fm-footer-inner">
