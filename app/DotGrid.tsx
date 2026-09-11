@@ -82,10 +82,12 @@ export default function DotGrid({
   const dotsRef = useRef<DotState[]>([]);
   const boundsRef = useRef<BoundsState>({ left: 0, top: 0, width: 0, height: 0 });
   const gridRef = useRef<GridMeta>({ cols: 0, rows: 0, cell: 1, startX: 0, startY: 0 });
-  const visibleRef = useRef(true);
-  const moveRafRef = useRef(0);
+  const visibleRef = useRef(false);
+  const rafRef = useRef(0);
+  const lastFrameRef = useRef(performance.now());
   const latestPointerRef = useRef({ x: 0, y: 0 });
   const pointerRef = useRef<PointerState>({ x: -9999, y: -9999, lastX: 0, lastY: 0, lastTime: 0 });
+  const wakeRef = useRef<() => void>(() => {});
 
   const baseRgb = useMemo(() => hexToRgb(baseColor), [baseColor]);
   const activeRgb = useMemo(() => hexToRgb(activeColor), [activeColor]);
@@ -99,7 +101,7 @@ export default function DotGrid({
     const rect = wrap.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+    const dpr = 1;
 
     boundsRef.current = {
       left: rect.left + window.scrollX,
@@ -142,52 +144,27 @@ export default function DotGrid({
       }
     }
     dotsRef.current = dots;
+    wakeRef.current();
   }, [dotSize, gap]);
 
   useEffect(() => {
-    buildGrid();
-
-    const ro = new ResizeObserver(buildGrid);
-    if (wrapperRef.current) ro.observe(wrapperRef.current);
-
-    const io = new IntersectionObserver(
-      entries => {
-        visibleRef.current = entries[0]?.isIntersecting ?? true;
-      },
-      { rootMargin: '200px 0px' },
-    );
-    if (wrapperRef.current) io.observe(wrapperRef.current);
-
-    return () => {
-      ro.disconnect();
-      io.disconnect();
-    };
-  }, [buildGrid]);
-
-  useEffect(() => {
-    let rafId = 0;
-    let lastFrame = performance.now();
+    let disposed = false;
     const radius = dotSize / 2;
     const proxSq = proximity * proximity;
 
     const draw = (now: number) => {
+      rafRef.current = 0;
+      if (disposed || !visibleRef.current) return;
+
       const canvas = canvasRef.current;
-      if (!canvas) return;
-
-      if (!visibleRef.current) {
-        lastFrame = now;
-        rafId = requestAnimationFrame(draw);
-        return;
-      }
-
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
+      const ctx = canvas?.getContext('2d');
+      if (!canvas || !ctx) return;
 
       const bounds = boundsRef.current;
       const meta = gridRef.current;
       const dots = dotsRef.current;
-      const frameScale = Math.min((now - lastFrame) / 16.667, 2);
-      lastFrame = now;
+      const frameScale = Math.min((now - lastFrameRef.current) / 16.667, 2);
+      lastFrameRef.current = now;
 
       ctx.clearRect(0, 0, bounds.width, bounds.height);
 
@@ -200,6 +177,7 @@ export default function DotGrid({
       const dampingBase = Math.min(0.9, Math.max(0.72, 0.79 + resistance / 10000));
       const damping = Math.pow(dampingBase, frameScale);
       const { x: px, y: py } = pointerRef.current;
+      let anyMoving = false;
 
       if (sameColor) {
         ctx.beginPath();
@@ -223,6 +201,8 @@ export default function DotGrid({
               dot.vy = 0;
             }
 
+            if (dot.xOffset !== 0 || dot.yOffset !== 0 || dot.vx !== 0 || dot.vy !== 0) anyMoving = true;
+
             const ox = dot.cx + dot.xOffset;
             const oy = dot.cy + dot.yOffset;
             ctx.moveTo(ox + radius, oy);
@@ -242,6 +222,17 @@ export default function DotGrid({
             dot.vy *= damping;
             dot.xOffset += dot.vx * frameScale;
             dot.yOffset += dot.vy * frameScale;
+
+            if (Math.abs(dot.xOffset) < 0.01 && Math.abs(dot.vx) < 0.01) {
+              dot.xOffset = 0;
+              dot.vx = 0;
+            }
+            if (Math.abs(dot.yOffset) < 0.01 && Math.abs(dot.vy) < 0.01) {
+              dot.yOffset = 0;
+              dot.vy = 0;
+            }
+
+            if (dot.xOffset !== 0 || dot.yOffset !== 0 || dot.vx !== 0 || dot.vy !== 0) anyMoving = true;
 
             const dx = dot.cx - px;
             const dy = dot.cy - py;
@@ -263,21 +254,70 @@ export default function DotGrid({
         }
       }
 
-      rafId = requestAnimationFrame(draw);
+      if (anyMoving && visibleRef.current && !disposed) {
+        rafRef.current = requestAnimationFrame(draw);
+      }
     };
 
-    rafId = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(rafId);
+    const wake = () => {
+      if (disposed || !visibleRef.current || rafRef.current) return;
+      lastFrameRef.current = performance.now();
+      rafRef.current = requestAnimationFrame(draw);
+    };
+
+    wakeRef.current = wake;
+    wake();
+
+    return () => {
+      disposed = true;
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = 0;
+      wakeRef.current = () => {};
+    };
   }, [dotSize, proximity, baseColor, sameColor, baseRgb, activeRgb, resistance, returnDuration]);
 
-  const forNearbyDots = useCallback((x: number, y: number, radius: number, callback: (dot: DotState, dx: number, dy: number, dist: number) => void) => {
+  useEffect(() => {
+    buildGrid();
+
+    const ro = new ResizeObserver(buildGrid);
+    if (wrapperRef.current) ro.observe(wrapperRef.current);
+
+    const io = new IntersectionObserver(
+      entries => {
+        visibleRef.current = entries[0]?.isIntersecting ?? false;
+        if (visibleRef.current) wakeRef.current();
+      },
+      { rootMargin: '160px 0px' },
+    );
+    if (wrapperRef.current) io.observe(wrapperRef.current);
+
+    const onScroll = () => {
+      const wrap = wrapperRef.current;
+      if (wrap) {
+        const rect = wrap.getBoundingClientRect();
+        boundsRef.current.left = rect.left + window.scrollX;
+        boundsRef.current.top = rect.top + window.scrollY;
+      }
+      wakeRef.current();
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      ro.disconnect();
+      io.disconnect();
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [buildGrid]);
+
+  const forNearbyDots = useCallback((x: number, y: number, radiusValue: number, callback: (dot: DotState, dx: number, dy: number, dist: number) => void) => {
     const meta = gridRef.current;
     const dots = dotsRef.current;
-    const minCol = Math.max(0, Math.floor((x - radius - meta.startX) / meta.cell));
-    const maxCol = Math.min(meta.cols - 1, Math.ceil((x + radius - meta.startX) / meta.cell));
-    const minRow = Math.max(0, Math.floor((y - radius - meta.startY) / meta.cell));
-    const maxRow = Math.min(meta.rows - 1, Math.ceil((y + radius - meta.startY) / meta.cell));
-    const radiusSq = radius * radius;
+    const minCol = Math.max(0, Math.floor((x - radiusValue - meta.startX) / meta.cell));
+    const maxCol = Math.min(meta.cols - 1, Math.ceil((x + radiusValue - meta.startX) / meta.cell));
+    const minRow = Math.max(0, Math.floor((y - radiusValue - meta.startY) / meta.cell));
+    const maxRow = Math.min(meta.rows - 1, Math.ceil((y + radiusValue - meta.startY) / meta.cell));
+    const radiusSq = radiusValue * radiusValue;
 
     for (let row = minRow; row <= maxRow; row += 1) {
       const rowStart = row * meta.cols;
@@ -293,8 +333,12 @@ export default function DotGrid({
   }, []);
 
   useEffect(() => {
+    let moveFrame = 0;
+
     const processPointer = () => {
-      moveRafRef.current = 0;
+      moveFrame = 0;
+      if (!visibleRef.current) return;
+
       const { x: clientX, y: clientY } = latestPointerRef.current;
       const bounds = boundsRef.current;
       const docX = clientX + window.scrollX;
@@ -333,25 +377,28 @@ export default function DotGrid({
       pr.x = docX - bounds.left;
       pr.y = docY - bounds.top;
 
-      if (speed <= speedTrigger) return;
+      if (speed > speedTrigger) {
+        const speedFactor = Math.min(speed / Math.max(speedTrigger, 1), 5);
+        forNearbyDots(pr.x, pr.y, proximity, (dot, dotDx, dotDy, dist) => {
+          const falloff = 1 - dist / proximity;
+          const invDist = 1 / Math.max(dist, 1);
+          const outward = falloff * (1.4 + speedFactor * 0.45);
+          dot.vx += dotDx * invDist * outward + vx * 0.00045 * falloff;
+          dot.vy += dotDy * invDist * outward + vy * 0.00045 * falloff;
+        });
+      }
 
-      const speedFactor = Math.min(speed / Math.max(speedTrigger, 1), 5);
-      forNearbyDots(pr.x, pr.y, proximity, (dot, dotDx, dotDy, dist) => {
-        const falloff = 1 - dist / proximity;
-        const invDist = 1 / Math.max(dist, 1);
-        const outward = falloff * (1.4 + speedFactor * 0.45);
-        dot.vx += dotDx * invDist * outward + vx * 0.00045 * falloff;
-        dot.vy += dotDy * invDist * outward + vy * 0.00045 * falloff;
-      });
+      wakeRef.current();
     };
 
     const onMove = (e: PointerEvent) => {
       latestPointerRef.current.x = e.clientX;
       latestPointerRef.current.y = e.clientY;
-      if (!moveRafRef.current) moveRafRef.current = requestAnimationFrame(processPointer);
+      if (!moveFrame) moveFrame = requestAnimationFrame(processPointer);
     };
 
     const onPointerDown = (e: PointerEvent) => {
+      if (!visibleRef.current) return;
       const bounds = boundsRef.current;
       const docX = e.clientX + window.scrollX;
       const docY = e.clientY + window.scrollY;
@@ -371,6 +418,7 @@ export default function DotGrid({
         dot.vx += dx * invDist * impulse;
         dot.vy += dy * invDist * impulse;
       });
+      wakeRef.current();
     };
 
     window.addEventListener('pointermove', onMove, { passive: true });
@@ -379,7 +427,7 @@ export default function DotGrid({
     return () => {
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerdown', onPointerDown);
-      if (moveRafRef.current) cancelAnimationFrame(moveRafRef.current);
+      if (moveFrame) cancelAnimationFrame(moveFrame);
     };
   }, [maxSpeed, speedTrigger, proximity, shockRadius, shockStrength, forNearbyDots]);
 
