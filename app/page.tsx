@@ -1,3 +1,4 @@
+import ColorBends from "./ColorBends";
 import ProjectForm from "./ProjectForm";
 
 const services = [
@@ -66,6 +67,24 @@ export default function Home() {
       </header>
 
       <section className="fm-hero fm-hero-refresh">
+        <ColorBends
+          className="otr-color-bends"
+          colors={["#ff5c7a", "#8a5cff", "#00ffd1"]}
+          rotation={90}
+          speed={0.2}
+          scale={1}
+          frequency={1}
+          warpStrength={1}
+          mouseInfluence={1}
+          noise={0.15}
+          parallax={0.5}
+          iterations={1}
+          intensity={1.5}
+          bandWidth={6}
+          transparent
+        />
+        <div className="otr-color-bends-overlay" aria-hidden="true" />
+
         <div className="fm-shell fm-hero-inner fm-hero-inner-refresh">
           <div className="fm-availability">
             <i aria-hidden="true" />
