@@ -67,8 +67,12 @@
   }
 }
 
+/* Do not hide the field for prefers-reduced-motion. The previous rule set
+   display:none here, which made Antigravity the only visual effect that could
+   disappear completely on browsers/OSes reporting reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   .fm-antigravity-panel > .fm-antigravity-field {
-    display: none !important;
+    display: block !important;
+    visibility: visible !important;
   }
 }
