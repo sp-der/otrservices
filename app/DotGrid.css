@@ -35,15 +35,73 @@
   background: linear-gradient(180deg, #0b0b0b 0%, #080808 62%, #0d0d0d 100%);
 }
 
+/* Fade the dot field itself at both ends so it dissolves into the neighboring
+   panels instead of starting/stopping on a visible horizontal edge. */
 .fm-dotgrid-zone > .dot-grid {
   z-index: 0;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    rgba(0, 0, 0, 0.18) 55px,
+    rgba(0, 0, 0, 0.55) 115px,
+    #000 190px,
+    #000 calc(100% - 190px),
+    rgba(0, 0, 0, 0.55) calc(100% - 115px),
+    rgba(0, 0, 0, 0.18) calc(100% - 55px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    rgba(0, 0, 0, 0.18) 55px,
+    rgba(0, 0, 0, 0.55) 115px,
+    #000 190px,
+    #000 calc(100% - 190px),
+    rgba(0, 0, 0, 0.55) calc(100% - 115px),
+    rgba(0, 0, 0, 0.18) calc(100% - 55px),
+    transparent 100%
+  );
+}
+
+/* A subtle black veil extends the blend beyond the dot opacity itself. */
+.fm-dotgrid-zone::before,
+.fm-dotgrid-zone::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 220px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fm-dotgrid-zone::before {
+  top: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 11, 11, 1) 0%,
+    rgba(11, 11, 11, 0.74) 28%,
+    rgba(11, 11, 11, 0.28) 68%,
+    rgba(11, 11, 11, 0) 100%
+  );
+}
+
+.fm-dotgrid-zone::after {
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(13, 13, 13, 0) 0%,
+    rgba(13, 13, 13, 0.28) 32%,
+    rgba(13, 13, 13, 0.74) 72%,
+    rgba(13, 13, 13, 1) 100%
+  );
 }
 
 .fm-dotgrid-zone > .fm-services,
 .fm-dotgrid-zone > .fm-work,
 .fm-dotgrid-zone > .fm-brand-break {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   background: transparent !important;
 }
 
@@ -51,7 +109,7 @@
 .fm-work-dotgrid > .fm-shell,
 .fm-brand-break-dotgrid > .fm-shell {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* Preserve the 50% glass treatment without backdrop blur. Removing the
@@ -71,4 +129,28 @@
   background: rgba(8, 8, 8, 0.5) !important;
   border-color: #d946ef !important;
   box-shadow: 0 22px 70px rgba(217, 70, 239, 0.09) !important;
+}
+
+@media (max-width: 760px) {
+  .fm-dotgrid-zone > .dot-grid {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 125px,
+      #000 calc(100% - 125px),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 125px,
+      #000 calc(100% - 125px),
+      transparent 100%
+    );
+  }
+
+  .fm-dotgrid-zone::before,
+  .fm-dotgrid-zone::after {
+    height: 150px;
+  }
 }
