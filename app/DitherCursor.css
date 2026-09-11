@@ -14,7 +14,8 @@
   height: 100%;
 }
 
-.fm-services > .fm-shell {
+.fm-services > .fm-shell,
+.fm-work > .fm-shell {
   position: relative;
   z-index: 1;
 }
