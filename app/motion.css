@@ -10,8 +10,8 @@
   pointer-events: none;
   transform: scaleX(0);
   transform-origin: left center;
-  background: linear-gradient(90deg, #ff5a1f, #ff9a65);
-  box-shadow: 0 0 18px rgba(255, 90, 31, .5);
+  background: linear-gradient(90deg, #5227ff, #d946ef);
+  box-shadow: 0 0 18px rgba(82, 39, 255, .5);
 }
 
 .fm-header {
@@ -35,7 +35,7 @@
 }
 
 .fm-nav a.fm-nav-active {
-  color: #ff6a2b;
+  color: #d946ef;
 }
 
 .fm-motion-ready .fm-reveal {
@@ -74,7 +74,7 @@
   pointer-events: none;
   opacity: .13;
   filter: blur(8px);
-  background: radial-gradient(circle, rgba(255,106,43,.58) 0%, rgba(255,106,43,.2) 30%, transparent 68%);
+  background: radial-gradient(circle, rgba(82,39,255,.58) 0%, rgba(217,70,239,.2) 30%, transparent 68%);
   mix-blend-mode: screen;
   will-change: transform;
 }
@@ -115,7 +115,7 @@
   pointer-events: none;
   opacity: .24;
   background:
-    linear-gradient(110deg, transparent 0 42%, rgba(255,106,43,.05) 50%, transparent 58% 100%);
+    linear-gradient(110deg, transparent 0 42%, rgba(82,39,255,.055) 50%, transparent 58% 100%);
   background-size: 220% 100%;
   animation: fmAmbientSweep 11s ease-in-out infinite;
 }
@@ -129,7 +129,7 @@
   right: 0;
   top: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,106,43,.45), transparent);
+  background: linear-gradient(90deg, transparent, rgba(217,70,239,.45), transparent);
   transform-origin: center;
   animation: fmLineBreath 5s ease-in-out infinite;
 }
@@ -159,7 +159,7 @@
 .fm-service-list article:hover,
 .fm-process-grid article:hover {
   transform: translateY(-7px);
-  border-color: rgba(255,106,43,.3);
+  border-color: rgba(217,70,239,.3);
   box-shadow: 0 28px 70px rgba(0,0,0,.14);
 }
 
@@ -172,7 +172,7 @@
 
 .fm-project-card:hover {
   transform: translateY(-9px);
-  border-color: rgba(255,106,43,.28);
+  border-color: rgba(217,70,239,.28);
   box-shadow: 0 34px 90px rgba(0,0,0,.22);
 }
 
@@ -212,7 +212,7 @@
 }
 
 .fm-brand-break:hover img {
-  filter: drop-shadow(0 0 24px rgba(255,255,255,.13));
+  filter: drop-shadow(0 0 24px rgba(217,70,239,.22));
 }
 
 .fm-footer-brand img,
