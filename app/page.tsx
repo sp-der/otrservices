@@ -165,67 +165,67 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="fm-services fm-services-dotgrid" id="services">
+      <div className="fm-dotgrid-zone">
         <DotGrid {...dotGridProps} />
 
-        <div className="fm-shell">
-          <div className="fm-section-head">
-            <div>
-              <p className="fm-kicker">SERVICES / 01</p>
-              <h2>What we build<br />around your business.</h2>
+        <section className="fm-services fm-services-dotgrid" id="services">
+          <div className="fm-shell">
+            <div className="fm-section-head">
+              <div>
+                <p className="fm-kicker">SERVICES / 01</p>
+                <h2>What we build<br />around your business.</h2>
+              </div>
+              <p>Not a menu of random add-ons. A focused set of capabilities that work better together.</p>
             </div>
-            <p>Not a menu of random add-ons. A focused set of capabilities that work better together.</p>
-          </div>
 
-          <div className="fm-service-list">
-            {services.map(([number, title, copy]) => (
-              <article key={number}>
-                <span>{number}</span>
-                <h3>{title}</h3>
-                <p>{copy}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="fm-work fm-work-dotgrid" id="work">
-        <DotGrid {...dotGridProps} />
-
-        <div className="fm-shell">
-          <div className="fm-section-head fm-section-head-work">
-            <div>
-              <p className="fm-kicker">SELECTED WORK / 02</p>
-              <h2>Real businesses.<br />Live builds.</h2>
+            <div className="fm-service-list">
+              {services.map(([number, title, copy]) => (
+                <article key={number}>
+                  <span>{number}</span>
+                  <h3>{title}</h3>
+                  <p>{copy}</p>
+                </article>
+              ))}
             </div>
-            <p>Scroll the actual sites. No static mockups hiding the details.</p>
           </div>
+        </section>
 
-          <div className="fm-project-grid">
-            {projects.map((project, index) => (
-              <article className={`fm-project-card project-card project-card-${index + 1}`} key={project.number}>
-                <div className="fm-project-top"><span>PROJECT / {project.number}</span><span>LIVE PREVIEW</span></div>
-                <div className="fm-project-visual project-visual" />
-                <div className="fm-project-info">
-                  <div>
-                    <h3>{project.name}</h3>
-                    <p className="fm-project-category">{project.category}</p>
+        <section className="fm-work fm-work-dotgrid" id="work">
+          <div className="fm-shell">
+            <div className="fm-section-head fm-section-head-work">
+              <div>
+                <p className="fm-kicker">SELECTED WORK / 02</p>
+                <h2>Real businesses.<br />Live builds.</h2>
+              </div>
+              <p>Scroll the actual sites. No static mockups hiding the details.</p>
+            </div>
+
+            <div className="fm-project-grid">
+              {projects.map((project, index) => (
+                <article className={`fm-project-card project-card project-card-${index + 1}`} key={project.number}>
+                  <div className="fm-project-top"><span>PROJECT / {project.number}</span><span>LIVE PREVIEW</span></div>
+                  <div className="fm-project-visual project-visual" />
+                  <div className="fm-project-info">
+                    <div>
+                      <h3>{project.name}</h3>
+                      <p className="fm-project-category">{project.category}</p>
+                    </div>
+                    <p>{project.description}</p>
                   </div>
-                  <p>{project.description}</p>
-                </div>
-              </article>
-            ))}
+                </article>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="fm-brand-break">
-        <div className="fm-shell fm-brand-break-inner">
-          <small>IDEAS / BRANDS / WEBSITES / RESULTS</small>
-          <img src="/ScriptW.png" alt="On The Run" />
-          <small>SAME MENTALITY. DIFFERENT INDUSTRIES.</small>
-        </div>
-      </section>
+        <section className="fm-brand-break fm-brand-break-dotgrid">
+          <div className="fm-shell fm-brand-break-inner">
+            <small>IDEAS / BRANDS / WEBSITES / RESULTS</small>
+            <img src="/ScriptW.png" alt="On The Run" />
+            <small>SAME MENTALITY. DIFFERENT INDUSTRIES.</small>
+          </div>
+        </section>
+      </div>
 
       <section className="fm-process">
         <div className="fm-shell">
