@@ -9,6 +9,7 @@
   justify-content: center;
   overflow: hidden;
   pointer-events: none;
+  contain: layout paint;
 }
 
 .dot-grid__wrap {
@@ -25,19 +26,36 @@
   pointer-events: none;
 }
 
-.fm-services-dotgrid,
-.fm-work-dotgrid {
+/* One canvas spans Services, Selected Work, and the OTR brand break.
+   This keeps the field continuous and avoids running three animation loops. */
+.fm-dotgrid-zone {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
+  background: linear-gradient(180deg, #0b0b0b 0%, #080808 62%, #0d0d0d 100%);
+}
+
+.fm-dotgrid-zone > .dot-grid {
+  z-index: 0;
+}
+
+.fm-dotgrid-zone > .fm-services,
+.fm-dotgrid-zone > .fm-work,
+.fm-dotgrid-zone > .fm-brand-break {
+  position: relative;
+  z-index: 1;
+  background: transparent !important;
 }
 
 .fm-services-dotgrid > .fm-shell,
-.fm-work-dotgrid > .fm-shell {
+.fm-work-dotgrid > .fm-shell,
+.fm-brand-break-dotgrid > .fm-shell {
   position: relative;
   z-index: 1;
 }
 
-/* Preserve the glassy service-row treatment over the new dot field. */
+/* Preserve the 50% glass treatment without backdrop blur. Removing the
+   live blur substantially reduces GPU work while the dot canvas moves. */
 .fm-services-dotgrid .fm-service-list {
   border-top-color: rgba(217, 70, 239, 0.35) !important;
 }
@@ -45,8 +63,8 @@
 .fm-services-dotgrid .fm-service-list article {
   background: rgba(8, 8, 8, 0.5) !important;
   border-bottom-color: rgba(217, 70, 239, 0.35) !important;
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 .fm-services-dotgrid .fm-service-list article:hover {
