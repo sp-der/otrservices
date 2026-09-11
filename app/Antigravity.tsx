@@ -79,7 +79,7 @@ function AntigravityInner({
     for (let i = 0; i < count; i += 1) {
       const x = (Math.random() - 0.5) * width;
       const y = (Math.random() - 0.5) * height;
-      const z = (Math.random() - 0.5) * 20;
+      const z = (Math.random() - 0.5) * 12;
       temp.push({
         t: Math.random() * 100,
         speed: 0.01 + Math.random() / 200,
@@ -118,9 +118,8 @@ function AntigravityInner({
       destY = Math.cos(now) * (v.height / 4);
     }
 
-    const smoothFactor = 0.05;
-    virtualMouse.current.x += (destX - virtualMouse.current.x) * smoothFactor;
-    virtualMouse.current.y += (destY - virtualMouse.current.y) * smoothFactor;
+    virtualMouse.current.x += (destX - virtualMouse.current.x) * 0.05;
+    virtualMouse.current.y += (destY - virtualMouse.current.y) * 0.05;
 
     const targetX = virtualMouse.current.x;
     const targetY = virtualMouse.current.y;
@@ -167,10 +166,9 @@ function AntigravityInner({
       const ringInfluence = Math.max(0, Math.min(1, 1 - distFromRing / 10));
       const pulse = 0.9 + Math.sin(t * pulseSpeed) * 0.1 * particleVariance;
 
-      // Keep a subtle particle field visible everywhere, then let the magnetic
-      // ring swell nearby particles. The original zero baseline made the layer
-      // appear completely absent on large sections.
-      const finalScale = particleSize * (0.18 + ringInfluence * 0.82) * pulse;
+      // Keep the full field plainly visible, then make the magnetic ring swell.
+      // The old baseline was so tiny that the particles were effectively sub-pixel.
+      const finalScale = particleSize * (0.5 + ringInfluence * 0.9) * pulse;
 
       dummy.scale.set(finalScale, finalScale, finalScale);
       dummy.updateMatrix();
@@ -186,7 +184,7 @@ function AntigravityInner({
       {particleShape === 'sphere' && <sphereGeometry args={[0.2, 12, 12]} />}
       {particleShape === 'box' && <boxGeometry args={[0.3, 0.3, 0.3]} />}
       {particleShape === 'tetrahedron' && <tetrahedronGeometry args={[0.3]} />}
-      <meshBasicMaterial color={color} transparent opacity={0.88} toneMapped={false} />
+      <meshBasicMaterial color={color} transparent opacity={1} toneMapped={false} depthWrite={false} />
     </instancedMesh>
   );
 }
@@ -194,15 +192,16 @@ function AntigravityInner({
 export default function Antigravity({ className = '', ...props }: AntigravityProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pointerRef = useRef<PointerPosition>({ x: 0, y: 0 });
-  const [isVisible, setIsVisible] = useState(false);
+  // Start mounted so the effect cannot miss its first intersection callback.
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setIsVisible(entry?.isIntersecting ?? false),
-      { rootMargin: '180px 0px' },
+      ([entry]) => setIsVisible(entry?.isIntersecting ?? true),
+      { rootMargin: '260px 0px' },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -215,13 +214,12 @@ export default function Antigravity({ className = '', ...props }: AntigravityPro
       const rect = el.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
 
-      const inside =
-        event.clientX >= rect.left &&
-        event.clientX <= rect.right &&
-        event.clientY >= rect.top &&
-        event.clientY <= rect.bottom;
-
-      if (!inside) return;
+      if (
+        event.clientX < rect.left ||
+        event.clientX > rect.right ||
+        event.clientY < rect.top ||
+        event.clientY > rect.bottom
+      ) return;
 
       pointerRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       pointerRef.current.y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
@@ -233,14 +231,17 @@ export default function Antigravity({ className = '', ...props }: AntigravityPro
 
   return (
     <div ref={containerRef} className={`antigravity ${className}`.trim()} aria-hidden="true">
-      <Canvas
-        camera={{ position: [0, 0, 50], fov: 35 }}
-        dpr={1}
-        frameloop={isVisible ? 'always' : 'never'}
-        gl={{ alpha: true, antialias: false, powerPreference: 'high-performance' }}
-      >
-        <AntigravityInner {...props} pointerRef={pointerRef} />
-      </Canvas>
+      {isVisible && (
+        <Canvas
+          camera={{ position: [0, 0, 50], fov: 35 }}
+          dpr={1}
+          frameloop="always"
+          gl={{ alpha: true, antialias: false, powerPreference: 'high-performance' }}
+          style={{ background: 'transparent' }}
+        >
+          <AntigravityInner {...props} pointerRef={pointerRef} />
+        </Canvas>
+      )}
     </div>
   );
 }
