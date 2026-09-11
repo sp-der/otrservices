@@ -1,35 +1,48 @@
-.fm-antigravity-zone {
+.fm-antigravity-panel {
   position: relative;
   isolation: isolate;
   overflow: hidden;
 }
 
-.fm-antigravity-zone > .antigravity {
+/* Each final panel owns its own canvas. This removes the previous stacking
+   ambiguity where one shared canvas sat between two opaque section layers. */
+.fm-antigravity-panel > .fm-antigravity-field {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  opacity: 0.66;
+  opacity: 0.82;
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0,
-    rgba(0, 0, 0, 0.5) 100px,
-    #000 190px,
-    #000 calc(100% - 170px),
-    rgba(0, 0, 0, 0.58) calc(100% - 80px),
+    rgba(0, 0, 0, 0.72) 80px,
+    #000 150px,
+    #000 calc(100% - 130px),
+    rgba(0, 0, 0, 0.72) calc(100% - 60px),
     transparent 100%
   );
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
-    rgba(0, 0, 0, 0.5) 100px,
-    #000 190px,
-    #000 calc(100% - 170px),
-    rgba(0, 0, 0, 0.58) calc(100% - 80px),
+    rgba(0, 0, 0, 0.72) 80px,
+    #000 150px,
+    #000 calc(100% - 130px),
+    rgba(0, 0, 0, 0.72) calc(100% - 60px),
     transparent 100%
   );
+}
+
+/* Pink particles stay clean on the light process panel and glow a little more
+   over the dark contact panel. */
+.fm-process.fm-antigravity-panel > .fm-antigravity-field {
+  opacity: 0.72;
+}
+
+.fm-contact.fm-antigravity-panel > .fm-antigravity-field {
+  opacity: 0.88;
+  mix-blend-mode: screen;
 }
 
 .antigravity canvas {
@@ -38,47 +51,44 @@
   height: 100% !important;
 }
 
-/* The WebGL field sits above the panel backgrounds/pseudo-elements and below
-   all readable content. */
-.fm-antigravity-zone > .fm-process,
-.fm-antigravity-zone > .fm-contact {
+.fm-antigravity-panel > .fm-shell {
   position: relative;
-  z-index: 1;
-  isolation: auto !important;
+  z-index: 2;
 }
 
-.fm-antigravity-zone > .fm-process > .fm-shell,
-.fm-antigravity-zone > .fm-contact > .fm-shell {
+/* Keep the form readable while particles remain visible around it. */
+.fm-antigravity-panel .fm-project-form {
   position: relative;
   z-index: 3;
-}
-
-.fm-antigravity-zone .fm-project-form {
-  background: linear-gradient(180deg, rgba(35, 35, 35, 0.9), rgba(24, 24, 24, 0.88));
+  background: linear-gradient(180deg, rgba(35, 35, 35, 0.92), rgba(24, 24, 24, 0.9));
 }
 
 @media (max-width: 760px) {
-  .fm-antigravity-zone > .antigravity {
-    opacity: 0.48;
+  .fm-antigravity-panel > .fm-antigravity-field {
+    opacity: 0.58;
     -webkit-mask-image: linear-gradient(
       to bottom,
       transparent 0,
-      #000 120px,
-      #000 calc(100% - 110px),
+      #000 90px,
+      #000 calc(100% - 80px),
       transparent 100%
     );
     mask-image: linear-gradient(
       to bottom,
       transparent 0,
-      #000 120px,
-      #000 calc(100% - 110px),
+      #000 90px,
+      #000 calc(100% - 80px),
       transparent 100%
     );
+  }
+
+  .fm-contact.fm-antigravity-panel > .fm-antigravity-field {
+    opacity: 0.68;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fm-antigravity-zone > .antigravity {
+  .fm-antigravity-panel > .fm-antigravity-field {
     display: none;
   }
 }
