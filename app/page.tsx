@@ -156,10 +156,10 @@ export default function Home() {
       <section className="fm-services fm-services-dither" id="services">
         <DitherCursor
           ditherSize={6}
-          radius={0.1}
-          exponent={2}
-          decay={0.01}
-          intensity={0.5}
+          radius={0.14}
+          exponent={1.45}
+          decay={0.035}
+          intensity={0.75}
           color="#FF9FFC"
         />
 
