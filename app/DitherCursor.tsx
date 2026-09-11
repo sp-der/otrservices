@@ -58,6 +58,8 @@ export default function DitherCursor({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    let lastPoint: { x: number; y: number } | null = null;
+
     const rebuild = () => {
       const rect = root.getBoundingClientRect();
       const width = Math.max(1, Math.round(rect.width));
@@ -74,6 +76,7 @@ export default function DitherCursor({
       canvas.style.height = `${height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, width, height);
+      lastPoint = null;
     };
 
     const draw = (now: number) => {
@@ -107,9 +110,9 @@ export default function DitherCursor({
           const normalized = Math.min(1, value);
           if (normalized <= threshold) continue;
 
-          const alpha = Math.min(1, 0.38 + normalized * 0.95);
+          const alpha = Math.min(1, 0.42 + normalized * 0.95);
           ctx.globalAlpha = alpha;
-          ctx.fillRect(col * tile, row * tile, tile, tile);
+          ctx.fillRect(col * tile - 0.2, row * tile - 0.2, tile + 0.4, tile + 0.4);
         }
       }
 
@@ -130,17 +133,7 @@ export default function DitherCursor({
       rafRef.current = requestAnimationFrame(draw);
     };
 
-    const energize = (clientX: number, clientY: number) => {
-      const rect = root.getBoundingClientRect();
-      if (
-        clientX < rect.left || clientX > rect.right ||
-        clientY < rect.top || clientY > rect.bottom
-      ) {
-        return;
-      }
-
-      const x = clientX - rect.left;
-      const y = clientY - rect.top;
+    const energizeLocal = (x: number, y: number) => {
       const { width, height, cols, rows } = dimensionsRef.current;
       const values = valuesRef.current;
       const influenceRadius = Math.max(18, Math.min(width, height) * radius);
@@ -162,12 +155,43 @@ export default function DitherCursor({
           if (nextValue > values[index]) values[index] = nextValue;
         }
       }
+    };
 
+    const energize = (clientX: number, clientY: number) => {
+      const rect = root.getBoundingClientRect();
+      if (
+        clientX < rect.left || clientX > rect.right ||
+        clientY < rect.top || clientY > rect.bottom
+      ) {
+        lastPoint = null;
+        return;
+      }
+
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
+      if (lastPoint) {
+        const dx = x - lastPoint.x;
+        const dy = y - lastPoint.y;
+        const distance = Math.hypot(dx, dy);
+        const stepSize = Math.max(2, ditherSize * 0.55);
+        const steps = Math.max(1, Math.ceil(distance / stepSize));
+
+        for (let step = 1; step <= steps; step += 1) {
+          const t = step / steps;
+          energizeLocal(lastPoint.x + dx * t, lastPoint.y + dy * t);
+        }
+      } else {
+        energizeLocal(x, y);
+      }
+
+      lastPoint = { x, y };
       wake();
     };
 
     const handlePointerMove = (event: PointerEvent) => {
-      energize(event.clientX, event.clientY);
+      const events = event.getCoalescedEvents?.() ?? [event];
+      for (const point of events) energize(point.clientX, point.clientY);
     };
 
     const resizeObserver = new ResizeObserver(() => rebuild());
