@@ -69,7 +69,7 @@ export default function Home() {
       <section className="fm-hero fm-hero-refresh">
         <ColorBends
           className="otr-color-bends"
-          colors={["#ff5c7a", "#8a5cff", "#00ffd1"]}
+          colors={["#d56cff", "#8a5cff", "#5b2cff"]}
           rotation={90}
           speed={0.2}
           scale={1}
