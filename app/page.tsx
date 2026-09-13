@@ -3,6 +3,7 @@ import ColorBends from "./ColorBends";
 import CursorGrid from "./CursorGrid";
 import DotGrid from "./DotGrid";
 import ProjectForm from "./ProjectForm";
+import { approvedReviews } from "./approvedReviews";
 
 const services = [
   ["01", "Website Building", "Custom sites designed around how your business actually sells, books, communicates, and grows."],
@@ -215,19 +216,36 @@ export default function Home() {
             </div>
 
             <div className="fm-project-grid">
-              {projects.map((project, index) => (
-                <article className={`fm-project-card project-card project-card-${index + 1}`} key={project.number}>
-                  <div className="fm-project-top"><span>PROJECT / {project.number}</span><span>LIVE PREVIEW</span></div>
-                  <div className="fm-project-visual project-visual" />
-                  <div className="fm-project-info">
-                    <div>
-                      <h3>{project.name}</h3>
-                      <p className="fm-project-category">{project.category}</p>
+              {projects.map((project, index) => {
+                const review = approvedReviews[project.name];
+
+                return (
+                  <article className={`fm-project-card project-card project-card-${index + 1}`} key={project.number}>
+                    <div className="fm-project-top"><span>PROJECT / {project.number}</span><span>LIVE PREVIEW</span></div>
+                    <div className="fm-project-visual project-visual" />
+                    <div className="fm-project-info">
+                      <div>
+                        <h3>{project.name}</h3>
+                        <p className="fm-project-category">{project.category}</p>
+                      </div>
+                      <p>{project.description}</p>
                     </div>
-                    <p>{project.description}</p>
-                  </div>
-                </article>
-              ))}
+
+                    {review && (
+                      <div className="fm-project-review">
+                        <div className="fm-project-review-top">
+                          <span>CLIENT REVIEW</span>
+                          <span className="fm-project-review-stars" aria-label={`${review.rating} out of 5 stars`}>
+                            {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
+                          </span>
+                        </div>
+                        <blockquote>“{review.quote}”</blockquote>
+                        <p>— {review.clientName}</p>
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
