@@ -4,6 +4,7 @@ import "./motion.css";
 import "./landing-refresh.css";
 import "./scroll-polish.css";
 import "./final-polish.css";
+import "./reviews.css";
 import PortfolioEmbeds from "./PortfolioEmbeds";
 import MotionLayer from "./MotionLayer";
 import DesktopMotionLayer from "./DesktopMotionLayer";
