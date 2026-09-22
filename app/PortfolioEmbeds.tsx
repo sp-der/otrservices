@@ -7,6 +7,7 @@ const embeds = [
   { card: 2, name: "Pacific Stay Properties", url: "https://pacificstayproperties.com" },
   { card: 3, name: "JMB 2 Creations", url: "https://jmb2creations.com" },
   { card: 4, name: "Muerto De Hambre", url: "https://mdhgrill.com" },
+  { card: 5, name: "Muebleria 3R", url: "https://www.muebleria3r.com" },
 ];
 
 export default function PortfolioEmbeds() {
