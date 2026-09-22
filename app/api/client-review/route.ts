@@ -9,6 +9,7 @@ const PROJECTS = new Set([
   "Pacific Stay Properties",
   "JMB 2 Creations",
   "Muerto De Hambre",
+  "Muebleria 3R",
 ]);
 
 function clean(value: unknown, max = 4000) {
