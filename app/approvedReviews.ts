@@ -19,4 +19,10 @@ export const approvedReviews: Partial<Record<string, ApprovedReview>> = {
       "I had a website built from scratch for my new business. They were so quick and professional! Reyman listened to what I was asking for in a layout for my site. They made it easy for me to add or edit stuff myself. There continuing to give me support when needed when I have something I need help with! I cant wait to work more with them in the future.",
     clientName: "Meghan Borbon",
   },
+  "Muebleria 3R": {
+    rating: 5,
+    quote:
+      "I have to say that OTR Services offers quality work and has a very special treatment, it is very professional and responsible with the work it does. Thank you very much",
+    clientName: "Francisco Rodriguez Hernandez",
+  },
 };
