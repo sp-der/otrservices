@@ -37,6 +37,12 @@ const projects = [
     category: "Food / Brand Experience / Catering",
     description: "A bold food brand translated into a high-energy site with motion, personality, locations, and catering.",
   },
+  {
+    number: "005",
+    name: "Muebleria 3R",
+    category: "Custom Cabinetry / Remodeling / Bilingual Web",
+    description: "A bilingual portfolio and lead-generation site built to showcase real project work, walkthroughs, services, and estimate requests.",
+  },
 ];
 
 const process = [
@@ -173,7 +179,7 @@ export default function Home() {
         </div>
 
         <div className="fm-shell fm-proof-row">
-          <div><strong>04</strong><span>LIVE CLIENT BUILDS</span></div>
+          <div><strong>05</strong><span>LIVE CLIENT BUILDS</span></div>
           <div><strong>100%</strong><span>CUSTOM DIRECTION</span></div>
           <div><strong>01</strong><span>POINT OF CONTACT</span></div>
           <blockquote>“Understand the business first. Then build what actually helps it move.”</blockquote>
